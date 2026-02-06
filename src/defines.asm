@@ -4,6 +4,12 @@
 !exampleconstant = $1234        ;only this
 !badconstant     = #$1234       ;never this
 
+;================================ program state constants ==================================
+
+!state_setup      =   $0000
+!state_gameloop   =   $0001
+
+
 ;================================= module bank constants ===================================
 
 
@@ -43,3 +49,7 @@
 !bg3tilemapshifted  =       !bg3tilemap>>10
 
 !spritegfxshifted   =       !spritegfx>>12
+
+;================================ cgram constants ===================================
+
+!k_cgrambuffersize  =       $0200

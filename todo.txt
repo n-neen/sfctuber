@@ -1,0 +1,23 @@
+systems for:
+    -load scene
+        -background graphics, tilemaps:         bg2
+        -character graphics and base tilemaps:  bg1
+
+
+buffers:
+    -all of cgram
+    -bg1/2 tilemaps, for animations
+        -partial tilemap upload system for updating only the tiles (rectangle) we need to
+    
+    
+tile object system:
+    -apply to bg or bg2
+    -animations
+    
+    
+hdma handler
+    -hdma object system with preinstrucions, etc
+
+
+color cycling system
+    -color cycling objects

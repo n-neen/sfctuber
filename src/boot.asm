@@ -145,6 +145,8 @@ init: {
         
         rep #$20
     }
+    
+    stz.w w_programstate
 }
 
 ;fall through to main

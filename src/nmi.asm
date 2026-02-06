@@ -29,17 +29,18 @@ nmi: {
     .setbank:
     
     sep #$10
-    ldx $4210
-    ldx w_nmiflag
+    {
+        ldx $4210
+        ldx w_nmiflag
+    }
     rep #$10
     beq .lag
     
     ;nmi stuf goez here
+    ;todo: ppu register buffers
     
-    sep #$20
-    lda w_screenbrightness
-    sta $2100
-    rep #$20
+    jsr readcontroller
+    jsr colorbufferupload
     
     stz w_nmiflag
     
@@ -56,6 +57,38 @@ nmi: {
     bra .return
 }
 
+colorbufferupload: {
+    ;inline all this and do not use the thing in dma.asm
+    ;for fasterness
+    
+    rep #$20
+    sep #$10                                ;width  register
+    
+    ldx #$00                                ;1      cgadd
+    stx $2121
+    
+    ldx #$02                                ;1      transfur mode: write twice
+    stx $4300
+    
+    ldx #$22                                ;1      register dest (cgram write)
+    stx $4301
+    
+    lda.w #w_cgrambuffer                    ;2      source addr
+    sta $4302
+    
+    ldx.b #((w_cgrambuffer&$ff0000)>>16)+0  ;1      source bank
+    stx $4304
+    
+    lda.w #!k_cgrambuffersize               ;2      transfur size
+    sta $4305
+    
+    ldx #$01                                ;1      enable transfur on dma channel 0
+    stx $420b
+    
+    rep #$10
+    
+    rts
+}
 
 
 readcontroller: {

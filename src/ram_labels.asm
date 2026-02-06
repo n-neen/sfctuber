@@ -16,19 +16,20 @@ p: {
     .7  : skip 2
 }
 
+;======================================= direct page =======================================
 
 d: {
-    ;direct page
-    
     ;
+    ;todo
     ;
 }
 
 
 org $7e0100
 
+;========================================= work ram ========================================
+
 w: {
-    ;work ram
     .nmicounter         : skip 2
     .nmiflag            : skip 2
     .lagcounter         : skip 2
@@ -43,13 +44,10 @@ w: {
     
     .controller         : skip 2
     .programstate       : skip 2
+    
+    
+    
+    
+    org $7ec000
+    .cgrambuffer        : skip !k_cgrambuffersize
 }
-
-;registers
-
-r: {
-    ;
-    ;
-}
-
-;base off
