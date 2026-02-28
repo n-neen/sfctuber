@@ -5,7 +5,9 @@
 80:8026 :neg_1_1
 80:805F :neg_1_2
 80:80A3 :neg_1_3
+80:82C0 :neg_1_4
 80:80AD :neg_2_1
+80:82C8 :pos_1_0
 80:8000 boot
 80:8007 boot_setbank
 80:8146 colorbufferupload
@@ -24,8 +26,14 @@
 80:8114 errhandle
 80:810C gameloop
 80:82BD hdma
-80:82BE hdma_clear
+80:82D4 hdma_clear
+80:82CE hdma_configurechannel
 80:82BD hdma_nmihandler
+80:82D3 hdma_spawn
+80:82F5 hdma_testobject
+80:82FB hdma_testobject_init
+80:82FB hdma_testobject_routine
+80:82FB hdma_testobject_table
 80:801E init
 80:801E init_clear7e
 80:8057 init_clear7f
@@ -65,13 +73,20 @@ C1:0000 light_pal
 7E:010E w_dmasize
 7E:010C w_dmasrcbank
 7E:010A w_dmasrcptr
+7E:1000 w_hdma
+7E:1046 w_hdma_bank
+7E:1054 w_hdma_channel
+7E:1000 w_hdma_id
+7E:100E w_hdma_init
+7E:105B w_hdma_params
+7E:101C w_hdma_routine
+7E:1038 w_hdma_table
+7E:104D w_hdma_target
+7E:102A w_hdma_timer
 7E:0104 w_lagcounter
 7E:0100 w_nmicounter
 7E:0102 w_nmiflag
 7E:0112 w_programstate
-7E:0F00 w_programstate_hdma
-7E:0F02 w_programstate_hdma_bank
-7E:0F00 w_programstate_hdma_preinst
 7E:0106 w_screenbrightness
 80:818B waitfornmi
 80:819C waitfornmi_long
@@ -83,12 +98,12 @@ C1:0000 light_pal
 0001 d0a46c03 c:/users/keenan/desktop/sfctuber/sfctuber/src/main.asm
 0002 e7bf5138 c:/users/keenan/desktop/sfctuber/sfctuber/src/nmi.asm
 0003 26f71086 c:/users/keenan/desktop/sfctuber/sfctuber/src/dma.asm
-0004 2bf9f49d c:/users/keenan/desktop/sfctuber/sfctuber/src/hdma.asm
+0004 02c60811 c:/users/keenan/desktop/sfctuber/sfctuber/src/hdma.asm
 0005 7e4eb76f c:/users/keenan/desktop/sfctuber/sfctuber/data/inc/c1.asm
 0006 eb45a930 c:/users/keenan/desktop/sfctuber/sfctuber/sfc_tuber.asm
 
 [rom checksum]
-6788d323
+16987bfd
 
 [addr-to-line mapping]
 80:8000 0000:00000003
@@ -414,7 +429,37 @@ C1:0000 light_pal
 80:82b9 0003:000000ae
 80:82ba 0003:000000af
 80:82bb 0003:000000b2
-80:82bd 0004:00000012
+80:82bd 0004:00000025
+80:82be 0004:00000027
+80:82c0 0004:0000002a
+80:82c3 0004:0000002b
+80:82c5 0004:0000002c
+80:82c8 0004:0000002f
+80:82c9 0004:00000030
+80:82ca 0004:00000031
+80:82cc 0004:00000033
+80:82cd 0004:00000034
+80:82ce 0004:0000003c
+80:82cf 0004:0000003d
+80:82d0 0004:0000003e
+80:82d2 0004:00000042
+80:82d3 0004:00000048
+80:82d4 0004:0000004d
+80:82d5 0004:0000004f
+80:82d6 0004:00000050
+80:82d7 0004:00000052
+80:82da 0004:00000053
+80:82dd 0004:00000054
+80:82e0 0004:00000055
+80:82e3 0004:00000057
+80:82e5 0004:00000059
+80:82e8 0004:0000005a
+80:82eb 0004:0000005b
+80:82ee 0004:0000005c
+80:82f1 0004:0000005e
+80:82f3 0004:00000060
+80:82f4 0004:00000061
+80:82f5 0004:00000066
 c1:0000 0005:00000009
 c1:0020 0005:0000000a
 c1:6f80 0005:0000000b

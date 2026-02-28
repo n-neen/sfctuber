@@ -41,7 +41,7 @@ nmi: {
     
     jsr readcontroller
     jsr colorbufferupload
-    jsl hdma_nmihandler
+    jsl hdma_nmihandler         ;unfinished
     
     stz w_nmiflag
     

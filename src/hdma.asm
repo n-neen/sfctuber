@@ -16,25 +16,54 @@
 hdma: {
     .nmihandler: {
         ;look for object slots that are occupied
-        ;
+        ;use the object's prarmeters to configure the hdma channel
         
         
-        ;$420c write to enable hdma
-        ;one bit per channel
+        phx
         
-        ;for channel x:                 ;width
-            ;$43x0: parameters          ;1
-            ;$43x1: target              ;1
-            ;$43x2: source ptr          ;2
-            ;$43x4: bank                ;1
-            
-            ;$43x5: indirect bank       ;1
-            ;$43x6: indirect addr       ;2
-            
-            ;$43x8: table addr          ;2 (bank is from $43x4)
-            ;$43xa: line counter        ;1 (maybe we don't touch this?)
+        ldx #!k_hdma_objects_count*2
+        -
         
+        lda w_hdma_id,x
+        beq +
+        jsr hdma_configurechannel
+        +
+        
+        dex
+        dex
+        bpl -
+        
+        plx
         rtl
+    }
+    
+    .configurechannel: {
+        ;a = hdma object pointer (id)
+        ;x = hdma object slot index
+        ;we can clobber a?
+        
+        txy             ;y = hdma object slot index
+        
+        txa
+        asl
+        asl
+        asl
+        ora #$4300
+        sta p_0         ;p_0 = hdma register base address for this object
+                        ;least significant nibble needs to be set for use
+        
+        ;unroll this for nmi time reasons
+        
+        lda w_hdma_params,y
+        and #$00ff
+        sta (p_0)
+        
+        inc p_0
+        
+        lda w_hdma_target,y
+        
+        
+        rts
     }
     
     .spawn: {
@@ -45,7 +74,12 @@ hdma: {
     
     .clear: {
         ;x = object index
+        phb
         
+        phk
+        plb
+        
+        stz w_hdma_id,x
         stz w_hdma_init,x
         stz w_hdma_routine,x
         stz w_hdma_timer,x
@@ -60,6 +94,26 @@ hdma: {
         }
         rep #$20
         
+        plb
         rts
+    }
+    
+    .testobject: {
+        ;to create the structure
+        dw ..init, ..routine, ..table
+        
+        
+        ..init: {
+            ;
+        }
+        
+        ..routine: {
+            ;
+        }
+        
+        ..table: {
+            ;
+        }
+        
     }
 }

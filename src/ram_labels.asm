@@ -47,17 +47,19 @@ w: {                                    ;w
     
     
     org $7e1000
-    ..hdma: {                           ;w_hdma
+    .hdma: {                           ;w_hdma
         !k_hdma_objects_count #=   7
-        ...init:    skip 2*!k_hdma_objects_count
-        ...routine: skip 2*!k_hdma_objects_count
-        ...timer:   skip 2*!k_hdma_objects_count
-        ...table:   skip 2*!k_hdma_objects_count
+        ..id:      skip 2*!k_hdma_objects_count
+        ..init:    skip 2*!k_hdma_objects_count
+        ..routine: skip 2*!k_hdma_objects_count
+        ..timer:   skip 2*!k_hdma_objects_count
+        ..table:   skip 2*!k_hdma_objects_count
         
-        ...bank:    skip 1*!k_hdma_objects_count
-        ...target:  skip 1*!k_hdma_objects_count
-        ...channel: skip 1*!k_hdma_objects_count
-        ...params:  skip 1*!k_hdma_objects_count
+        ..params:  skip 1*!k_hdma_objects_count
+        ..bank:    skip 1*!k_hdma_objects_count
+        ..target:  skip 1*!k_hdma_objects_count
+        ..channel: skip 1*!k_hdma_objects_count
+        
     }
     
     org $7ec000
