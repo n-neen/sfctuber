@@ -58,7 +58,7 @@ gameloop: {
     
     ;lda w_controller
     
-    lda.w #$7fff
+    lda.w #$3038
     sta $7ec000
     
     rts

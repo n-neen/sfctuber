@@ -41,6 +41,7 @@ nmi: {
     
     jsr readcontroller
     jsr colorbufferupload
+    jsr nmippuregisters
     jsl hdma_nmihandler         ;unfinished
     
     stz w_nmiflag
@@ -56,6 +57,22 @@ nmi: {
     .lag
     inc w_lagcounter
     bra .return
+}
+
+nmippuregisters: {
+    ;todo
+    
+    sep #$20
+    
+    lda #%10111111
+    sta $2131
+    
+    lda #%00000001
+    sta $212c
+    
+    rep #$20
+    
+    rts
 }
 
 colorbufferupload: {
