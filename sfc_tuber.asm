@@ -13,7 +13,7 @@ incsrc "./src/ram_labels.asm"
 ;===========================================================================================
 
 org $c00000
-    ;
+    incsrc "./data/inc/scenedefs.asm"
 
 org $808000
     incsrc "./src/boot.asm"

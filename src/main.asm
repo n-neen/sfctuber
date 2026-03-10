@@ -40,8 +40,20 @@ loadscene: {
     ;previous state
     
     
+    ;prototyping this now
+    
+    lda #datasize(light_gfx)
+    sta w_dmasize
+    
+    
     
     rts
+}
+
+testscene: {
+    dl light
+    dw datasize(light_gfx)
+    
 }
 
 fade: {
