@@ -39,22 +39,19 @@ hdma: {
             lda.w w_hdma_bank+((<channel>)<<1)          ;if indirect
             and.w #$ff00                                ;set indirect bank (high byte)
             xba
-            sta.w $4307|!regbitmask
-            
-            lda.w w_hdma_table+((<channel>)<<1)         ;use $43x5/43x6/43x7
             sta.w $4305|!regbitmask
             
             bra ++
             
             +                                           ;if direct
             
-            lda.w w_hdma_table+((<channel>)<<1)         ;use $43x2/43x3/43x4
-            sta.w $4302|!regbitmask
-            
             lda.w w_hdma_bank+((<channel>)<<1)
             and.w #$00ff
             sta.w $4304|!regbitmask
+            
             ++
+            lda.w w_hdma_table+((<channel>)<<1)         ;use $43x2/43x3/43x4
+            sta.w $4302|!regbitmask
             
             lda.w #($0100)|($0001<<(<channel>))
             ora.w w_hdma_channels

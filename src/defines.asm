@@ -10,6 +10,15 @@
 !state_gameloop   =   $0001
 
 
+;fade state
+
+!fade_state_none      =   $0000
+!fade_state_start     =   $0001
+!fade_state_out       =   $0002
+!fade_state_in        =   $0003
+!fade_state_done      =   $0004
+
+
 ;================================= module bank constants ===================================
 
 
@@ -59,4 +68,4 @@
 
 !k_scroll_columnsize    =   $0020
 !k_scroll_rowsize       =   $0020               ;keep convention of ram labels = one letter
-!k_level_bank           =   (l&$ff0000)>>16     ;label 'l' is for level
+!k_level_bank           =   (l&$ff0000)>>16     ;label 'l' is for level, it's not a numeral '1'

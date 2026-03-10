@@ -70,6 +70,9 @@ nmippuregisters: {
     lda #%00000001
     sta $212c
     
+    lda w_screenbrightness      ;update inidisp
+    sta $2100
+    
     rep #$20
     
     rts

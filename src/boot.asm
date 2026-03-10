@@ -147,6 +147,7 @@ init: {
     }
     
     stz.w w_programstate
+    stz.w w_fadestate
 }
 
 ;fall through to main

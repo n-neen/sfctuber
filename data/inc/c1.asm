@@ -5,9 +5,7 @@
 
 
 light: {
-    ;warn pc
     .pal:   incbin "./data/pal/light.pal"
     .gfx:   incbin "./data/gfx/light.gfx"
     .map:   incbin "./data/map/light.map"
-    ;warn pc
 }

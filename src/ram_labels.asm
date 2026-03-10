@@ -55,6 +55,11 @@ w: {                                    ;w
     .controller         : skip 2
     .programstate       : skip 2
     
+    .fadestate          : skip 2
+    .fadecounter        : skip 2
+    .fadebitmask        : skip 2
+    .fadenextstate      : skip 2
+    
     .level: {
         ..camerax       : skip 2
         ..cameray       : skip 2
