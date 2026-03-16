@@ -79,8 +79,6 @@ loadscene: {
     phk
     plb
     
-    print "screen off ", pc
-    
     jsr waitfornmi
     jsr screenoff
     jsr disablenmi
@@ -277,7 +275,7 @@ setup: {
     
     stz w_hdma_enable
     
-    ldx.w #scenedef_light
+    ldx.w #scenedef_meetsisters
     jsr scenetransition         ;testing, populate pointers in scene ram
     
     jsr enablenmi

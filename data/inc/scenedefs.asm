@@ -11,8 +11,8 @@ scenedef: {
     
     
     
-    .light: %scenedefentry(light)
-    
+    .light:             %scenedefentry(light)
+    .meetsisters:       %scenedefentry(meetsisters)
     
     
 }

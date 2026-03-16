@@ -192,8 +192,6 @@ load: {
         ;p_0 = long pointer
         ;a   = size, must be < $8000
         
-        print "copy loop test ", pc
-        
         phy
         phb
         
