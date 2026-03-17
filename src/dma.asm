@@ -244,4 +244,36 @@ load: {
         plb
         rtl
     }
+    
+    .romtocolorbuffer: {
+        ;a = palette bank (in low byte)
+        ;x = palette pointer
+        ;copies an entire $100 byte palette to cg ram buffer
+        
+        phb
+        phy
+        
+        stx p_0
+        
+        xba
+        pha
+        plb
+        plb     ;db = palette bank
+        
+        ldy #$0100
+        ldx #$0100
+        
+        -
+        lda (p_0),y
+        sta.l w_cgrambuffer,x
+        dey
+        dey
+        dex
+        dex
+        bpl -
+        
+        ply
+        plb
+        rtl
+    }
 }

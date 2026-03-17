@@ -13,6 +13,6 @@ scenedef: {
     
     .light:             %scenedefentry(light)
     .meetsisters:       %scenedefentry(meetsisters)
-    
+    .blood_lotus:       %scenedefentry(blood_lotus)
     
 }

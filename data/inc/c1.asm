@@ -14,3 +14,14 @@ light: {
         dw $ffff
 }
 
+
+blood_lotus: {
+    .pal:   incbin "./data/pal/blood_lotus.pal"
+    .gfx:   incbin "./data/gfx/blood_lotus.gfx"
+    .map:   incbin "./data/map/blood_lotus.map"
+    
+    
+    .props:
+        ;gameplay aspects of this scene
+        dw $ffff
+}

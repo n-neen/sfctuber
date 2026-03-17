@@ -121,22 +121,19 @@ loadscene: {
     
     jsl load_buffertovram       ;dma gfx to vram
     
-    ;upload palette (no buffer)
-    ;oh wait we have a cgram buffer
-    ;probably want to do that huh
-    
+    ;
+        
     lda w_scene_bank
-    sta w_dmasrcbank
+    ldx w_scene_palptr
     
-    lda #$0100
-    sta w_dmasize
+    jsl load_romtocolorbuffer
     
-    lda w_scene_palptr
-    sta w_dmasrcptr
+    ;
     
-    stz w_dmabaseaddr
     
-    jsl dma_cgramtransfur
+    
+    
+    
     
     jsr enablenmi
     jsr waitfornmi
@@ -275,7 +272,7 @@ setup: {
     
     stz w_hdma_enable
     
-    ldx.w #scenedef_meetsisters
+    ldx.w #scenedef_blood_lotus
     jsr scenetransition         ;testing, populate pointers in scene ram
     
     jsr enablenmi
@@ -297,19 +294,9 @@ setup: {
 
 
 gameloop: {
-    
     ;todo
     
-    
     jsl hdma_top
-    
-    lda w_nmicounter
-    and #$01f0
-    ora w_controller
-    ora #$1000
-    
-    ;lda.w #$3038
-    sta $7ec000
     
     rts
 }

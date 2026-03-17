@@ -40,7 +40,7 @@ nmi: {
     ;todo: ppu register buffers
     
     jsr readcontroller
-    ;jsr colorbufferupload
+    jsr colorbufferupload
     jsr nmippuregisters
     jsl hdma_nmihandler         ;unfinished
     
