@@ -1,3 +1,0 @@
-C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\sisters_meet\sisters5.png" -p "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\sisters_meet\sisters5.pal" -t "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\sisters_meet\sisters5.gfx" -m "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\sisters_meet\sisters5.map" --color-zero 000000
-
-pause

@@ -74,77 +74,7 @@ scenetransition: {
 }
 
 loadscene: {
-    phb
-    
-    phk
-    plb
-    
-    jsr waitfornmi
-    jsr screenoff
-    jsr disablenmi
-    
-    ;copy tilemap to buffer
-    
-    lda w_scene_bank
-    sta p_2
-    
-    lda w_scene_mapptr          ;tilemap pointer
-    sta p_0
-    
-    lda #$0800                  ;tilemap size
-    
-    jsl load_romtobuffer        ;copy tilemap to buffer
-    
-    ;upload buffer to vram
-    
-    lda #$0800                  ;tilemap size
-    ldx #!bg1tilemap            ;destination in vram
-    
-    jsl load_buffertovram       ;dma tilemap to vram
-    
-    ;copy graphics to buffer
-    
-    lda w_scene_bank            ;contains bank byte in low
-    sta p_2
-    
-    lda w_scene_gfxptr          ;gfx pointer
-    sta p_0
-    
-    lda w_scene_gfxsize         ;tilemap size
-    
-    jsl load_romtobuffer        ;copy gfx to buffer
-    
-    ;upload buffer to vram
-    
-    lda w_scene_gfxsize         ;gfx size
-    ldx #!bg1tiles              ;destination in vram
-    
-    jsl load_buffertovram       ;dma gfx to vram
-    
-    ;
-        
-    lda w_scene_bank
-    ldx w_scene_palptr
-    
-    jsl load_romtocolorbuffer
-    
-    ;
-    
-    
-    
-    
-    
-    
-    jsr enablenmi
-    jsr waitfornmi
-    jsr screenon
-    
-    lda #!state_gameloop
-    sta w_programstate
-    
-    
-    
-    plb
+    jsl load_scene
     rts
 }
 
@@ -272,7 +202,10 @@ setup: {
     
     stz w_hdma_enable
     
+    ;ldx.w #scenedef_meetsisters
     ldx.w #scenedef_blood_lotus
+    ;ldx.w #scenedef_light
+    
     jsr scenetransition         ;testing, populate pointers in scene ram
     
     jsr enablenmi

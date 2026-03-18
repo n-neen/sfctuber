@@ -21,6 +21,7 @@ org $808000
     incsrc "./src/nmi.asm"
     incsrc "./src/dma.asm"
     incsrc "./src/hdma.asm"
+    incsrc "./src/loading.asm"
     incsrc "./src/color_cycling.asm"
     print "80 end: ", pc
     

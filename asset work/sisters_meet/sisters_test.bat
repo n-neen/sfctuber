@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\sisters_meet\sisters5.png" -p "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\sisters_meet\meetsisters.pal" -t "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\sisters_meet\meetsisters.gfx" -m "C:\Users\keenan\Desktop\sfctuber\sfctuber\asset work\sisters_meet\meetsisters.map" -v --palette-base-offset 1
+
+pause
