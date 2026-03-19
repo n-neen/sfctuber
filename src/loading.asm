@@ -63,7 +63,9 @@ load: {
         
         jsr enablenmi
         jsr waitfornmi
-        jsr screenon
+        ;jsr screenon
+        
+        stz w_screenbrightness      ;otherwise fade in doesn't happen
         
         lda #!state_gameloop        ;return to gameplay
         sta w_programstate

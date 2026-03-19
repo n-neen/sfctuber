@@ -13,11 +13,10 @@ scenedef: {
     
     ;run superfamiconv to output every scene using at most the bottom 7 palettes
     ;of bg palette area. reserve top 16 colors for bg3!
-    
-    ;todo: run the conversion again for these three:
+    ;the routine load_romtocolorbuffer will start at the second palette
     
     .light:             %scenedefentry(light)
     .meetsisters:       %scenedefentry(meetsisters)
-    .blood_lotus:       %scenedefentry(blood_lotus)     ;done
+    .blood_lotus:       %scenedefentry(blood_lotus)
     
 }

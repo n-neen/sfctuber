@@ -73,8 +73,16 @@ scenetransition: {
     rts
 }
 
+
 loadscene: {
     jsl load_scene
+    
+    lda #!pre_state_in
+    sta w_prestate
+    
+    lda #!state_gameloop
+    sta w_fadenextstate
+    
     rts
 }
 
@@ -161,6 +169,8 @@ pre: {
             jsr waitfornmi
             jsr screenon
             
+            stz w_prestate
+            
             lda w_fadenextstate
             sta w_programstate
             
@@ -230,6 +240,32 @@ gameloop: {
     ;todo
     
     jsl hdma_top
+    
+    
+    
+    ;testing
+    
+    lda w_controller
+    bit #$8000
+    beq +
+    
+    ;initiate scene change
+    
+    {
+    
+        lda #$0015              ;fade counter
+        ldx #$0003              ;fade bitmask (interval)
+        ldy #!state_loadscene   ;next state after fade
+        
+        jsr pre_startfade
+        
+        ldx.w #scenedef_meetsisters
+        jsr scenetransition
+    
+    }
+    
+    +
+    
     
     rts
 }
