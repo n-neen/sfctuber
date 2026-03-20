@@ -137,26 +137,44 @@ init: {
         lda.b #%00000011|(!bg1tilemapshifted<<2)
         sta $2107
         
-        lda.b #%00000011|(!bg2tilemapshifted<<2)
+        lda.b #%00000000|(!bg2tilemapshifted<<2)
         sta $2108
         
-        lda.b #%00000011|(!bg3tilemapshifted<<2)
+        lda.b #%00000010|(!bg3tilemapshifted<<2)
         sta $2109
         
-        lda.b #%00000001                                ;drawing mode
+        lda.b #%00001001    ;drawing mode: 1 with bg3 priority
         sta $2105
         
+        lda #%00000000      ;color math layers
+        sta $2131
+    
+        lda #%00000101      ;main screen layers
+        sta $212c
         
-        lda #$ff                    ;gotta set the bg scroll
-        sta $210e                   ;to -1 because of course we do
+        lda #%00000000
+        sta $212d
+        
+        rep #$20
+        
+    }
+    
+        ;gotta set the bg scroll to -1 because of course we do
+        lda #$ffff
         sta $210e
+        sta $210e
+        
         sta $210d
         sta $210d
+        
         sta $2110
         sta $2110
+        
+        lda #$ff80
+        
+        sta $2112       ;bg3 vertical scroll
         sta $2112
-        sta $2112
-
+        sta w_bg3yscroll
         
         rep #$20
     }

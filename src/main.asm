@@ -20,12 +20,6 @@ main: {
     
     jmp main
     
-    .table: {
-        dw setup            ;0
-        dw gameloop         ;1
-        dw loadscene        ;2
-    }
-    
     .prestatetable: {
         dw pre_none         ;0: none
         dw pre_startfade    ;1
@@ -33,6 +27,13 @@ main: {
         dw pre_fadein       ;3
         dw pre_fadedone     ;4
     }
+    
+    .table: {
+        dw setup            ;0
+        dw gameloop         ;1
+        dw loadscene        ;2
+    }
+    
 }
 
 scenetransition: {
@@ -77,11 +78,10 @@ scenetransition: {
 loadscene: {
     jsl load_scene
     
-    lda #!pre_state_in
-    sta w_prestate
-    
-    lda #!state_gameloop
-    sta w_fadenextstate
+    lda #$0020
+    ldx #$0003
+    ldy #!state_gameloop
+    jsr pre_startfade_in
     
     rts
 }
@@ -103,14 +103,24 @@ pre: {
         ;x = fade bitmask to check nmi counter
         ;y = main state to enter when done
         
-        ;untested 3.15.26
-        
+        ..in:
         sta w_fadecounter
-        stx w_fadebitmask
-        sty w_fadenextstate
+        
+        lda #!pre_state_in
+        sta w_prestate
+        bra +
+        
+        ..out:
+        sta w_fadecounter
         
         lda #!pre_state_out
         sta w_prestate
+        
+        +
+        
+        stx w_fadebitmask
+        sty w_fadenextstate
+        
         
         rts
     }
@@ -137,6 +147,8 @@ pre: {
             
             jsr waitfornmi
             jsr screenoff
+            
+            stz w_prestate
             
             lda w_fadenextstate
             sta w_programstate
@@ -213,10 +225,17 @@ setup: {
     stz w_hdma_enable
     
     ;ldx.w #scenedef_meetsisters
-    ldx.w #scenedef_blood_lotus
+    ldx.w #scenedef_meetsisters
     ;ldx.w #scenedef_light
     
     jsr scenetransition         ;testing, populate pointers in scene ram
+    
+    ;temp test not real
+    
+    jsl load_bg3colortobuffer       ;bg3 palette
+    jsl load_bg3tilemaptobuffer     ;tilemap copy to buffer
+    jsl load_bg3tilemapupload       ;upload buffer
+    jsl load_bg3tilesupload         ;bg3 tiles to vram
     
     jsr enablenmi
     jsr waitfornmi
@@ -247,25 +266,54 @@ gameloop: {
     
     lda w_controller
     bit #$8000
-    beq +
+    beq ++
     
     ;initiate scene change
     
     {
-    
+        lda w_prestate
+        bne ++
+        
         lda #$0015              ;fade counter
         ldx #$0003              ;fade bitmask (interval)
         ldy #!state_loadscene   ;next state after fade
+        jsr pre_startfade_out   ;set parameters for prestate: fadeout
         
-        jsr pre_startfade
+        lda w_testsceneindex
+        inc
+        cmp #$0003
+        bne +
         
-        ldx.w #scenedef_meetsisters
+        stz w_testsceneindex
+        lda #$0000
+        
+        +
+        sta w_testsceneindex
+        asl
+        tax
+        lda.l gameloop_testtable,x
+        tax
         jsr scenetransition
-    
     }
     
+    ++
+    
+    lda w_controller
+    bit #$0800
+    beq +
+    inc w_bg3yscroll
     +
     
-    
+    bit #$0400
+    beq +
+    dec w_bg3yscroll
+    +
     rts
+    
+    
+    .testtable: {
+        dw scenedef_meetsisters,        ;0
+           scenedef_blood_lotus,        ;1
+           scenedef_light               ;2
+    }
 }

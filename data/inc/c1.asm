@@ -36,9 +36,9 @@ blood_lotus: {
 
 bg3data: {
     .gfx:
-        ;incbin "./data/gfx/bg3.gfx"
+        incbin "./data/gfx/bg3_font.gfx"
     .testmap:
-        ;incbin "./data/map/bg3testmap.gfx"
+        incbin "./data/map/bg3_font_test.map"
     .pal:
-        ;incbin "./data/pal/bg3.pal"
+        incbin "./data/pal/bg3.pal"
 }

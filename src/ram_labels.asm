@@ -53,6 +53,7 @@ w: {                                    ;w
     .lagcounter         : skip 2
     
     .screenbrightness   : skip 2
+    .bg3yscroll         : skip 2
     
     ;dma arguments
     .dmabaseaddr        : skip 2
@@ -67,6 +68,8 @@ w: {                                    ;w
     .fadecounter        : skip 2
     .fadebitmask        : skip 2
     .fadenextstate      : skip 2
+    
+    .testsceneindex     : skip 2
     
     .level: {
         ..camerax       : skip 2
@@ -109,7 +112,12 @@ w: {                                    ;w
     }
     
     org $7ec000
-    .cgrambuffer        : skip !k_cgrambuffersize
+    .cgrambuffer    :   skip !k_cgrambuffersize
+    
+    org $7ee000
+    .msg: {
+        ..buffer    :   skip $800
+    }
 }
 
 org $7f0000

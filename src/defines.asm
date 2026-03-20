@@ -42,8 +42,8 @@
 !bg3tiles           =       $4000
 
 !bg1tilemap         =       $5000
-!bg2tilemap         =       $5400
-!bg3tilemap         =       $5c00
+!bg2tilemap         =       $6000
+!bg3tilemap         =       $6400
 
 !spritegfx          =       $6000
 

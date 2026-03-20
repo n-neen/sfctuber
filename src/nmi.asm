@@ -63,17 +63,18 @@ nmippuregisters: {
     ;todo
     
     sep #$20
-    
-    lda #%10111111
-    sta $2131
-    
-    lda #%00000001
-    sta $212c
-    
-    lda w_screenbrightness      ;update inidisp
-    sta $2100
-    
+    {
+        lda w_screenbrightness      ;update inidisp
+        sta $2100
+        
+        lda w_bg3yscroll
+        sta $2112
+        lda w_bg3yscroll+1
+        sta $2112
+        
+    }
     rep #$20
+    
     
     rts
 }

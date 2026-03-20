@@ -23,4 +23,3 @@ meetsisters: {
         ;gameplay aspects of this scene
         dw $ffff
 }
-
