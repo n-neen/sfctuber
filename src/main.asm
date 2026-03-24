@@ -225,7 +225,7 @@ setup: {
     jsl load_bg3tilemaptobuffer     ;tilemap copy to buffer
     jsl load_bg3tilemapupload       ;upload buffer
     jsl load_bg3tilesupload         ;bg3 tiles to vram
-    jsl load_playersprite
+    jsl load_playerpal
     jsl load_playergfx
     
     jsr enablenmi

@@ -195,7 +195,9 @@ init: {
     stz w_bg2xscroll
     stz w_bg3xscroll
     
-    
+    ;lda #$0000
+    ;jsl $80e278
+    ;jsl $80e0bd             ;sound test. no work
     
     
     stz.w w_programstate

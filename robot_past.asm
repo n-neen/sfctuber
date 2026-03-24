@@ -12,8 +12,6 @@ incsrc "./src/ram_labels.asm"
 ;===================================               =========================================
 ;===========================================================================================
 
-org $c00000
-    incsrc "./data/inc/scenedefs.asm"
 
 org $808000
     incsrc "./src/boot.asm"
@@ -27,6 +25,9 @@ org $808000
     incsrc "./src/color_cycling.asm"
     print "80 end: ", pc
     
+org $c00000
+    incsrc "./data/inc/scenedefs.asm"
+    print "c0 end: ", pc
     
 org $c10000
     incsrc "./data/inc/c1.asm"

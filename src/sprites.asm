@@ -49,7 +49,34 @@ oam: {
         ;long spritemap pointer in p_0
         
         ;maybe do player first
+        phb
         
+        lda p_1
+        and #$ff00      ;db = spritemap bank
+        pha
+        plb
+        plb
+        
+        ldx p_0         ;x = spritemap ptr
+        ldy w_oam_index
+        
+        sep #$20
+        
+        lda $0000,x
+        sta w_oam_lo_buffer,y
+        
+        lda $0001,x
+        sta w_oam_lo_buffer+1,y
+        
+        lda $0002,x
+        sta w_oam_lo_buffer+2,y
+        
+        lda $0003,x
+        sta w_oam_lo_buffer+3,y
+        
+        ;high table
+        
+        plb
         rtl
     }
 }

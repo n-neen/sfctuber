@@ -48,7 +48,8 @@ d: {
 
 ;========================================= work ram ========================================
 org $7e0100
-w: {                                    ;w
+w: {
+    print "work ram start: ", pc
     .nmicounter         : skip 2
     .nmiflag            : skip 2
     .lagcounter         : skip 2
@@ -108,8 +109,6 @@ w: {                                    ;w
         ..hi_buffer     : skip 32
     }
     
-    
-    org $7e1000
     .hdma: {                           ;w_hdma
         ;object independent
         ..channels  : skip 2
@@ -127,6 +126,8 @@ w: {                                    ;w
         ..bank      :   skip 2*!k_hdma_objects_count+2  ;low byte = direct bank, high byte = indirect bank
         
     }
+    
+    print "work ram end:   ", pc
     
     org $7ec000
     .cgrambuffer    :   skip !k_cgrambuffersize

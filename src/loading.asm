@@ -165,7 +165,7 @@ load: {
         rtl
     }
     
-    .playersprite: {
+    .playerpal: {
         ;$01e0
         
         ldx #$0020
@@ -186,7 +186,7 @@ load: {
         lda #playersprite_gfx
         sta w_dmasrcptr
         
-        lda.w #(($ff0000&playersprite_gfx)>>16)+0
+        lda.w #((playersprite_gfx)>>16)+0
         sta w_dmasrcbank
         
         lda #!spritegfx+$c00
