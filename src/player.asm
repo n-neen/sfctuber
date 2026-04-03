@@ -6,8 +6,10 @@
 
 player: {
     .init: {
-        lda #$0080
+        lda w_level_playerstartx
         sta w_player_x
+        
+        lda w_level_playerstarty
         sta w_player_y
         
         jsr player_draw              ;test sprite not real
@@ -20,8 +22,9 @@ player: {
         jsr player_input
         jsr player_boundscheck
         
+        ;for some reason draw used to be right here        
         ;locate player on screen
-        jsr player_draw
+        
         lda w_player_x
         sec
         sbc w_level_camerax
@@ -32,6 +35,10 @@ player: {
         sbc w_level_cameray
         sta w_player_y_onscreen
         
+        jsr player_draw
+        
+        ;put a state machine here
+        ;or like three or four
         
         rtl
     }
@@ -220,6 +227,8 @@ player: {
         lda #%00111110              ;properties
         sta w_oam_lo_buffer,x
         inx
+        
+        ;stx oamindex
         
         rep #$20
         

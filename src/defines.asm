@@ -36,11 +36,10 @@
 !camera_subspeed_default    =   $8000       ;default speed = speed.subspeed, set in main.asm
 !camera_speed_default       =   $0001
 
-
-!camera_box_up_bound        =   $0020
-!camera_box_dn_bound        =   $00b1
-!camera_box_lf_bound        =   $0020
-!camera_box_rt_bound        =   $00d1
+!camera_box_up_bound        =   $0031
+!camera_box_dn_bound        =   $00a1
+!camera_box_lf_bound        =   $0031
+!camera_box_rt_bound        =   $00c0
 
 
 

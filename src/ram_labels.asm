@@ -106,10 +106,11 @@ w: {
         ..camerasubx    : skip 2
         ..camerasuby    : skip 2
         
-        ..seamcolumn    : skip 2        ;unused
-        ..seamrow       : skip 2        ;unused
+        ..camerastartx  : skip 2
+        ..camerastarty  : skip 2
         
-        ..dmastart      : skip 2        ;unimplemented
+        ..playerstartx  : skip 2
+        ..playerstarty  : skip 2
     }
     
     .scroll: {
@@ -122,6 +123,8 @@ w: {
         
         ..camerasubspeed: skip 2
         ..cameraspeed   : skip 2
+        
+        ;todo: put other camera stuff here
     }
     
     .scene: {
@@ -132,8 +135,8 @@ w: {
         ..mapptr        : skip 2
         ..gfxsize       : skip 2
         ..tilemapsize   : skip 2
-        ..gameprops     : skip 2    ;probably store all this
-                                    ;individually when it exists
+        ..gameprops     : skip 2        ;pointer to rom where the following was gotten
+        ..mode          : skip 2        ;program mode to use for state
     }
     
     .oam: {

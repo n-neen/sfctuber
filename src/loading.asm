@@ -11,10 +11,6 @@ load: {
         phk
         plb
         
-        jsr waitfornmi
-        jsr screenoff
-        jsr disablenmi
-        
         ;copy tilemap to buffer
         
         lda w_scene_bank

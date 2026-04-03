@@ -71,12 +71,35 @@ scenetransition: {
     lda $000d,x
     sta.l w_scene_gameprops
     
+    tax
+    
+    ;scene dialogue/gameplay properties
+    
+    lda $0000,x
+    sta.l w_scene_mode
+    
+    lda $0002,x
+    sta.l w_level_camerastartx
+    
+    lda $0004,x
+    sta.l w_level_camerastarty
+    
+    lda $0006,x
+    sta.l w_level_playerstartx
+    
+    lda $0008,x
+    sta.l w_level_playerstarty
+    
     plb
     rts
 }
 
 
 loadscene: {
+    jsr waitfornmi
+    jsr screenoff
+    jsr disablenmi
+    
     jsl load_scene
     
     lda #!state_scenehandler
@@ -86,7 +109,6 @@ loadscene: {
     
     jsr waitfornmi
     jsr fadein
-    
     
     rts
 }
@@ -186,6 +208,21 @@ gameplay: {
     
     ;game goes here
     
+    lda w_controller
+    bit #!controller_x
+    beq +
+    
+    ;test room change
+    
+    ldx #scenedef_room2         ;get scene pointer
+    jsr scenetransition         ;populate scene area of memory
+    
+    lda w_scene_mode            ;transition to program state
+    sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
+    
+    jsr fadeout
+    
+    +
     
     rts
 }
@@ -202,35 +239,23 @@ scenehandler: {
     
     ;initiate scene change
     
-    {
-        lda w_testsceneindex
-        inc
-        sta w_testsceneindex
-        cmp #$0004
-        beq .gotogame
-        
-        +
-        lda w_testsceneindex
-        asl
-        tax
-        lda.l scenehandler_testtable,x
-        tax
-        jsr scenetransition
-        
-        lda #!state_loadscene
-        sta w_programstate
-        
-        jsr fadeout
-    }
+    lda w_testsceneindex
+    inc
+    sta w_testsceneindex
     
-    .return:
-    rts
+    lda w_testsceneindex
+    asl
+    tax
+    lda.l scenehandler_testtable,x
+    tax
+    jsr scenetransition
     
-    .gotogame:
-    
-    lda #!state_loadgame
+    lda w_scene_mode
     sta w_programstate
     
+    jsr fadeout
+    
+    .return:
     rts
     
     
@@ -248,8 +273,10 @@ loadgame: {
     ;presumably something happens here
     ;but right now this is a reserved state
     
-    jsr waitfornmi
-    jsr fadeout
+    jsr enablenmi
+    jsr screenoff
+    
+    jsl load_scene
     
     ;do thing here
     
@@ -278,11 +305,23 @@ loadgame: {
     sta w_mainscreenlayers
     rep #$20
     
-    lda #$0020
-    sta w_level_cameray
+    lda w_level_camerastartx
     sta w_level_camerax
     sta w_bg1xscroll
+    
+    lda w_level_camerastarty
+    sta w_level_cameray
     sta w_bg1yscroll
+    
+    
+    ;this should fix stale player onscreen position at the start
+    ;of gameplay, but it doesn't
+    
+    jsl player_main
+    jsl scroll_main
+    
+    
+    jsl oam_uploadbuffer
     
     jsr waitfornmi
     jsr fadein

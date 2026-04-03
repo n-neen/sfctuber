@@ -7,7 +7,7 @@ scenedef: {
         dw <label>_map              ;tilemap                        ;7
         dw datasize(<label>_gfx)    ;graphics size                  ;9
         dw datasize(<label>_map)    ;tilemap size                   ;b
-        dw <label>_props            ;gameplay properties            ;d     ;unimplemented
+        dw properties_<label>       ;gameplay properties            ;d
     endmacro
     
     ;list of scenes
@@ -24,4 +24,63 @@ scenedef: {
     
     .room1:             %scenedefentry(room1)
     .room2:             %scenedefentry(room2)
+}
+
+
+properties: {
+    ;if a scene is a dialogue screen, we need to point at the text scripts
+    ;if a scene is a gameplay room, we need 
+    
+    
+    ;have the following:
+    
+    ;room bounds
+    ;scroll box bounds?
+    ;object list
+    ;sprite list
+    
+    .light: {
+        dw !state_loadscene
+    }
+    
+    .meetsisters: {
+        dw !state_loadscene
+    }
+    
+    .bloodlotus: {
+        dw !state_loadscene
+    }
+    
+    .leveltest: {
+        dw !state_loadgame
+    }
+    
+    .room1: {
+        ;program state to proceed to after loading
+        ;scene pointers
+        dw !state_loadgame
+        
+        ;starting camera position
+        dw $0001, $0001
+        
+        ;starting player position
+        dw $0040, $0040
+        
+        ;maybe somma dis:
+        ;dw objlist_room1
+        ;dw spritelist_room1
+    }
+    
+    .room2: {
+        dw !state_loadgame
+        
+        ;starting camera position x,y
+        dw $0080, $0080
+        
+        ;starting player position
+        dw $0100, $0100
+        
+        ;dw objlist_room1
+        ;dw spritelist_room1
+    }
 }
