@@ -42,6 +42,10 @@
 !camera_box_rt_bound        =   $00c0
 
 
+!msg_newline    = $0a
+!msg_end        = $00
+        
+
 
 ;controller bit constants
 !controller_b                         =       $8000
