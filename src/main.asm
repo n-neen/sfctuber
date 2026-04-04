@@ -122,6 +122,11 @@ layer3on: {
     rep #$20
     
     rts
+    
+    .long: {
+        jsr layer3on
+        rtl
+    }
 }
 
 
@@ -133,6 +138,11 @@ layer3off: {
     rep #$20
     
     rts
+    
+    .long: {
+        jsr layer3off
+        rtl
+    }
 }
 
 
@@ -209,9 +219,8 @@ gameplay: {
     ;game goes here
     
     lda w_controller
-    bit #!controller_x
+    bit #$c0c0
     beq +
-    
     ;test room change
     
     ldx #scenedef_room2         ;get scene pointer
@@ -224,6 +233,16 @@ gameplay: {
     
     +
     
+    lda w_controller
+    bit #$1000
+    beq ++
+    
+    ;if start go here
+    jsl msg_tilemaptest
+    
+    
+    
+    ++
     rts
 }
 

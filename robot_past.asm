@@ -24,6 +24,7 @@ org $808000
     incsrc "./src/player.asm"
     incsrc "./src/sprites.asm"
     incsrc "./src/color_cycling.asm"
+    incsrc "./src/messagebox.asm"
     print "80 end: ", pc
     
 org $c00000

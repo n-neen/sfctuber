@@ -45,6 +45,11 @@ nmi: {
     jsl oam_uploadbuffer        ;unfinished
     jsl hdma_nmihandler         ;unfinished
     
+    lda w_msg_uploadflag
+    beq +
+    jsr bg3upload
+    +
+    
     stz w_nmiflag
     
     .return
@@ -58,6 +63,12 @@ nmi: {
     .lag
     inc w_lagcounter
     bra .return
+}
+
+bg3upload: {
+    jsl msg_upload
+    stz w_msg_uploadflag
+    rts
 }
 
 

@@ -64,7 +64,7 @@ properties: {
         dw $0001, $0001
         
         ;starting player position
-        dw $0040, $0040
+        dw $0020, $0055
         
         ;maybe somma dis:
         ;dw objlist_room1

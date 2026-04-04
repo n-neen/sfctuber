@@ -212,10 +212,10 @@ load: {
         lda #(!bg3tilemap)
         sta w_dmabaseaddr
         
-        lda.w #w_msg_buffer
+        lda.w #w_msgbuffer
         sta w_dmasrcptr
         
-        lda.w #(($ff0000&w_msg_buffer)>>16)+0
+        lda.w #(($ff0000&w_msgbuffer)>>16)+0
         sta w_dmasrcbank
         
         lda #$0800
@@ -240,7 +240,7 @@ load: {
         
         -
         lda bg3data_testmap,x
-        sta.l w_msg_buffer,x
+        sta.l w_msgbuffer,x
         dex
         dex
         bpl -

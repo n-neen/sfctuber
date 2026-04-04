@@ -21,8 +21,7 @@ player: {
     .main: {
         jsr player_input
         jsr player_boundscheck
-        
-        ;for some reason draw used to be right here        
+              
         ;locate player on screen
         
         lda w_player_x
@@ -34,6 +33,8 @@ player: {
         sec
         sbc w_level_cameray
         sta w_player_y_onscreen
+        
+        ;then draw
         
         jsr player_draw
         

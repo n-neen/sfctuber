@@ -139,6 +139,12 @@ w: {
         ..mode          : skip 2        ;program mode to use for state
     }
     
+    .msg: {
+        ..uploadflag    :   skip 2
+        ..size          :   skip 2
+        ..start         :   skip 2
+    }
+    
     .oam: {
         ;print "oam buffer: ", pc
         ..index         : skip 2
@@ -185,9 +191,7 @@ w: {
     .cgrambuffer    :   skip !k_cgrambuffersize
     
     org $7ee000
-    .msg: {
-        ..buffer    :   skip $800
-    }
+    .msgbuffer      :   skip $800
 }
 
 org $7f0000
