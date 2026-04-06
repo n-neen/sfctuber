@@ -48,6 +48,10 @@
 
 !obj_list_entry_length      =   datasize(objlist_definitionstart)
 
+!obj_flag_update_screen0    =   %0000000000000001
+!obj_flag_update_screen1    =   %0000000000000010
+!obj_flag_update_screen2    =   %0000000000000100
+!obj_flag_update_screen3    =   %0000000000001000
 
 
 ;controller bit constants

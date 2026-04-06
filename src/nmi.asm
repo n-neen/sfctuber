@@ -43,6 +43,7 @@ nmi: {
     jsr readcontroller
     jsr nmippuregisters
     jsl oam_uploadbuffer
+    jsl load_updatelevelscreen
     ;jsl hdma_nmihandler         ;unfinished
     
     lda w_msg_uploadflag

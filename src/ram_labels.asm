@@ -170,7 +170,10 @@ w: {
         ..y             :   skip 2*!obj_count+2
         ..var1          :   skip 2*!obj_count+2
         ..var2          :   skip 2*!obj_count+2
-        ..roomptr       :   skip 2*!obj_count+2
+        ..var3          :   skip 2*!obj_count+2
+        
+        ..screenupdates :   skip 2
+        ..drawindex     :   skip 2
     }
     
     .oam: {
@@ -230,11 +233,13 @@ org $7f0000
 
 
 l: {
-    .decompressionbuffer:
-    ;level dimensions and data
-    .xsize  : skip 2
-    .ysize  : skip 2
-    .level  : skip $8000
-    
-    
+    .level: {
+        ..screen0   :   skip $800
+        ..screen1   :   skip $800
+        ..screen2   :   skip $800
+        ..screen3   :   skip $800
+        
+        ..extra     :   skip $6000      ;reserved space
+    }
+    .decompressionbuffer    :   skip $8000
 }

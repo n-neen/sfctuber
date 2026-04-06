@@ -288,6 +288,7 @@ loadgame: {
     sta w_scroll_rightbound
     
     jsr layer3off
+    jsl msg_cleartilemap
     
     jsl player_init
     

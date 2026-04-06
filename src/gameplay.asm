@@ -4,6 +4,9 @@ gameplay: {
     ;maybe only happens on snes9x?!
     ;todo fix that
     ;ok i can't reproduce it anymore, no idea lol
+    ;this bug seems to be permanently gone but
+    ;i can't recall actually understanding how it worked
+    ;or deliberately fixing it
     
     
     stz w_player_direction
@@ -17,31 +20,33 @@ gameplay: {
     
     ;game goes here
     
-    ;lda w_controller
-    ;bit #$c0c0
-    ;beq +
-    ;test room change
+    lda w_controller
+    bit #!controller_a      ;push A: clear text
+    beq +
     
-    ;ldx #scenedef_room2         ;get scene pointer
-    ;jsr scenetransition         ;populate scene area of memory
-    
-    ;lda w_scene_mode            ;transition to program state
-    ;sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
-    
-    ;jsl msg_cleartilemap
-    
-    ;jsr fadeout
-    ;bra ++                      ;maybe we want to avoid doing both msg test and room transition at the same time
-    ;+
+    {   ;reset dialog prototype
+        stz w_msg_size
+        jsl msg_cleartilemap
+        jsl layer3off_long
+    }
+    +
     
     lda w_controller
-    bit #$1000
-    beq ++
+    bit #!controller_st      ;push start: screen update test
+    beq +
     
-    ;if start go here
-    jsl msg_tilemaptest
+    {   ;screen update test
+        ;lda #!obj_flag_update_screen0
+        ;lda #$000f
+        ;sta w_obj_screenupdates
+        
+        ldx #!obj_count*2
+        jsl obj_draw
+        
+    }
+    +
     
-    ++
+    
     
     rtl
 }

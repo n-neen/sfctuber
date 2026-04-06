@@ -13,6 +13,8 @@ load: {
         
         ;copy tilemap to buffer
         
+        ;this now specifically puts layer 1 tilemap in l_level
+        
         lda w_scene_bank
         sta p_2
         
@@ -20,13 +22,13 @@ load: {
         sta p_0
         
         lda w_scene_tilemapsize     ;tilemap size
-        jsl load_romtobuffer        ;copy tilemap to buffer
+        jsl load_romtolevelbuffer   ;copy tilemap to level buffer
         
         ;upload buffer to vram
         
         lda w_scene_tilemapsize     ;tilemap size
         ldx #!bg1tilemap            ;destination in vram
-        jsl load_buffertovram       ;dma tilemap to vram
+        jsl load_levelbuffertovram  ;dma tilemap to vram
         
         ;copy graphics to buffer
         
@@ -80,7 +82,39 @@ load: {
         
         -
         lda [p_0],y                     ;copy from [long pointer] + y
-        sta.w l_decompressionbuffer,y   ;to buffer + x
+        sta.w l_decompressionbuffer,y   ;to buffer + y
+        dey
+        dey
+        bpl -
+        
+        plb
+        ply
+        rtl
+    }
+    
+    .romtolevelbuffer: {
+        ;copy paste from above :/
+        
+        ;copy from rom to buffer
+        ;eventually decompression will replace this
+        
+        ;arguments:
+        ;p_0 = long pointer
+        ;a   = size, must be < $8000
+        
+        phy
+        phb
+        
+        and #$7fff
+        tay
+        
+        pea.w (($ff0000&l_level)>>8)+0
+        plb
+        plb     ;db = buffer bank (7f)
+        
+        -
+        lda [p_0],y                     ;copy from [long pointer] + y
+        sta.w l_level,y                 ;to buffer + y
         dey
         dey
         bpl -
@@ -111,6 +145,38 @@ load: {
         
         ;print pc
         lda #(($ff0000&l_decompressionbuffer)>>16)
+        sta w_dmasrcbank
+        
+        jsl dma_vramtransfur
+        
+        plb
+        rtl
+    }
+    
+    
+    .levelbuffertovram: {
+        ;copy paste of above :/
+        
+        
+        ;copy from decompression buffer to vram
+        ;fixed start location, variable size
+        
+        ;arguments:
+        ;a = size
+        ;x = vram destination
+        phb
+        
+        phk
+        plb
+        
+        sta w_dmasize
+        stx w_dmabaseaddr
+        
+        lda #l_level
+        sta w_dmasrcptr
+        
+        ;print pc
+        lda #(($ff0000&l_level)>>16)
         sta w_dmasrcbank
         
         jsl dma_vramtransfur
@@ -267,6 +333,94 @@ load: {
         
         jsl dma_vramtransfur
         
+        rtl
+    }
+    
+    
+    .updatelevelscreen: {
+        ;screen 0, 1, 2 or 3
+        
+        lda w_obj_screenupdates
+        beq ..return
+        ;if bits exist, we have at least one update queued
+        
+        bit #!obj_flag_update_screen0
+        beq +
+            
+        {
+            lda w_obj_screenupdates
+            and #(!obj_flag_update_screen0^$ffff)+0     ;remove update bit
+            sta w_obj_screenupdates
+            
+            lda #!bg1tilemap+0
+            sta w_dmabaseaddr
+            
+            lda #l_level_screen0
+            bra ..update                                ;can only afford one update per nmi
+            +
+        }
+        
+        bit #!obj_flag_update_screen1
+        beq +
+        
+        {
+            lda w_obj_screenupdates
+            and #(!obj_flag_update_screen1^$ffff)+0     ;remove update bit
+            sta w_obj_screenupdates
+            
+            lda #!bg1tilemap+$400
+            sta w_dmabaseaddr
+            
+            lda #l_level_screen1
+            bra ..update                                ;can only afford one update per nmi
+            +
+        }
+        
+        bit #!obj_flag_update_screen2
+        beq +
+        
+        {
+            lda w_obj_screenupdates
+            and #(!obj_flag_update_screen2^$ffff)+0     ;remove update bit
+            sta w_obj_screenupdates
+            
+            lda #!bg1tilemap+$800
+            sta w_dmabaseaddr
+            
+            lda #l_level_screen2
+            bra ..update                                ;can only afford one update per nmi
+            +
+        }
+        
+        bit #!obj_flag_update_screen3
+        beq +
+        
+        {
+            lda w_obj_screenupdates
+            and #(!obj_flag_update_screen3^$ffff)+0     ;remove update bit
+            sta w_obj_screenupdates
+            
+            lda #!bg1tilemap+$c00
+            sta w_dmabaseaddr
+            
+            lda #l_level_screen3
+            ;bra ..update                               ;can only afford one update per nmi
+            +
+        }
+        
+        ..update:
+        
+        sta w_dmasrcptr                     ;A = buffer location from above
+        
+        lda #$0800
+        sta w_dmasize
+        
+        lda.w #(l_level>>16)+0
+        sta w_dmasrcbank
+        
+        jsl dma_vramtransfur
+        
+        ..return:
         rtl
     }
 }

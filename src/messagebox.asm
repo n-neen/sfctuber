@@ -37,6 +37,9 @@ msg: {
             
             lda #$0001
             sta w_msg_uploadflag
+            txa
+            inc
+            sta w_msg_size
             jsl waitfornmi_long
             
             ;jsl gameplay                ;could call gameplay here too
@@ -54,7 +57,7 @@ msg: {
         
         ..done:
         
-        sty w_msg_size
+        ;stx w_msg_size
         rts
     }
     
@@ -119,7 +122,7 @@ msg: {
         lda.w #(($ff0000&w_msgbuffer)>>16)+0
         sta w_dmasrcbank
         
-        lda #$0200
+        lda w_msg_size
         sta w_dmasize
         
         jsl dma_vramtransfur
@@ -143,23 +146,20 @@ msg: {
     
     
     .testtext: {
-        
-        db "From robot past"
-        db !msg_newline
-        
-        db "this is a sentence with wordz"
-        db !msg_newline
-        
-        db "test12"
-        db !msg_newline
-        db !msg_newline
-        
-        db "test123 slightly longer"
         db !msg_newline
         db !msg_newline
         db !msg_newline
-        
-        db "even more wordz"
+        db !msg_newline
+        db "        an act of love"
+        db !msg_newline
+        db !msg_newline
+        db "         remains at last"
+        db !msg_newline
+        db !msg_newline
+        db "          preserved above"
+        db !msg_newline
+        db !msg_newline
+        db "           from robot past"
         
         db !msg_end
     }
