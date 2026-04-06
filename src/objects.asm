@@ -1,5 +1,13 @@
+;===========================================================================================
+;===================================                   =====================================
+;===================================   O B J E C T S   =====================================
+;===================================                   =====================================
+;===========================================================================================
 
-
+;this is the file for routines of the object system
+;at the bottom of this file is incsrc /obj_def.asm
+;that file is for writing individual objects in this system
+;
 
 
 obj: {
@@ -283,38 +291,7 @@ obj: {
         rtl
     }
     
-    .door: {
-      ;size: x,  y
-        db $10, $10
-        dw obj_door_init
-        dw obj_door_main
-        dw obj_door_touch
-        
-        ..init: {
-            ;runs once when object is spawned
-            rts
-        }
-        
-        ..main: {
-            ;runs once per frame in main gameplay
-            rts
-        }
-        
-        ..touch: {
-            ;runs when player overlaps object
-            phx
-            
-            lda w_obj_roomptr,x         ;get scene pointer
-            tax
-            jsr scenetransition         ;populate scene area of memory
-            
-            lda w_scene_mode            ;transition to program state
-            sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
-            
-            jsr fadeout
-            
-            plx
-            rts
-        }
-    }
+    
+    ;object definitions
+    incsrc "./src/obj_def.asm"
 }

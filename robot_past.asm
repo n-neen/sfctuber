@@ -26,7 +26,9 @@ org $808000
     incsrc "./src/sprites.asm"
     incsrc "./src/color_cycling.asm"
     incsrc "./src/messagebox.asm"
-    incsrc "./src/objects.asm"
+    
+    incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
+    
     print "80 end: ", pc
     
 org $c00000
