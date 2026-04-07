@@ -26,7 +26,6 @@ org $808000
     incsrc "./src/sprites.asm"
     incsrc "./src/color_cycling.asm"
     incsrc "./src/messagebox.asm"
-    
     incsrc "./src/objects.asm"          ;also contains inc for obj_def.asm for individual objects
     
     print "80 end: ", pc
@@ -34,6 +33,7 @@ org $808000
 org $c00000
     incsrc "./data/inc/scenedefs.asm"
     incsrc "./data/inc/objlists.asm"
+    incsrc "./data/inc/strings.asm"
     print "c0 end: ", pc
     
 org $c10000
@@ -55,6 +55,15 @@ org $c40000
 org $c50000
     incsrc "./data/inc/c5.asm"
     print "c5 end: ", pc
+    
+    
+    
+    ;pad the rom
+    ;checksum will not calculate correctly if we don't have a whole bank
+    ;at the end of the rom
+    
+org $c7ffff
+    db $00
 
 ;===========================================================================================
 ;==================================               ==========================================

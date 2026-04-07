@@ -86,25 +86,28 @@ w: {
     
     .player: {
         ;print pc
-        ..x             : skip 2
-        ..subx          : skip 2
-        ..y             : skip 2
-        ..suby          : skip 2
+        ..x                 : skip 2
+        ..subx              : skip 2
+        ..y                 : skip 2
+        ..suby              : skip 2
         
-        ..x_onscreen    : skip 2
-        ..y_onscreen    : skip 2
+        ..x_onscreen        : skip 2
+        ..y_onscreen        : skip 2
         
-        ..direction     : skip 2
+        ..direction         : skip 2
+        ..previousdirection : skip 2
         
-        ..animationtimer: skip 2
+        ..animationtimer    : skip 2
         
-        ..xsize         : skip 2
-        ..ysize         : skip 2
+        ..xsize             : skip 2
+        ..ysize             : skip 2
         
-        ..hitboxleft    : skip 2
-        ..hitboxright   : skip 2
-        ..hitboxtop     : skip 2
-        ..hitboxbottom  : skip 2
+        ..hitboxleft        : skip 2
+        ..hitboxright       : skip 2
+        ..hitboxtop         : skip 2
+        ..hitboxbottom      : skip 2
+        
+        ..collisiontype     : skip 2
     }
     
     .level: {
@@ -148,12 +151,17 @@ w: {
         ..tilemapsize   : skip 2
         ..gameprops     : skip 2        ;pointer to rom where the following was gotten
         ..mode          : skip 2        ;program mode to use for state
+        ..strptr        : skip 2
+        ..strline       : skip 2
+        ..timer         : skip 2
     }
     
     .msg: {
         ..uploadflag    :   skip 2
         ..size          :   skip 2
         ..start         :   skip 2
+        ..ptr           :   skip 2
+        ..index         :   skip 2
     }
     
     .obj: {
@@ -163,6 +171,7 @@ w: {
         ..init          :   skip 2*!obj_count+2
         ..main          :   skip 2*!obj_count+2
         ..touch         :   skip 2*!obj_count+2
+        ..tile          :   skip 2*!obj_count+2
         
         ..x             :   skip 2*!obj_count+2
         ..y             :   skip 2*!obj_count+2

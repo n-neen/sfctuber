@@ -34,37 +34,43 @@ properties: {
     ;if a scene is a gameplay room, we need gameplay data
     .light: {
         dw !state_loadscene
-        ;text script pointers, eventually
     }
     
-    .meetsisters: {
+    .meetsisters: {                 ;intro 1
+        dw !state_loadscene         ;program state to enter
+        dw str_intro1               ;text string pointer
+        db $08                      ;starting line for text
+    }
+    
+    .bloodlotus: {                  ;intro 2
         dw !state_loadscene
+        dw str_intro2
+        db $16
     }
     
-    .bloodlotus: {
+    .flamecircle: {                 ;intro 3
         dw !state_loadscene
+        dw str_intro3
+        db $18
     }
     
-    .flamecircle: {
-        dw !state_loadscene
-    }
-    
-    .leveltest: {
+    .leveltest: {                   ;unused
         dw !state_loadgame
+        db $10
     }
     
     .room1: {                           ;description                ;number of bytes in
         dw !state_loadgame              ;program mode to use        ;0
         dw $0001, $0001                 ;starting camera position   ;2,4
-        dw $0040, $0040                 ;starting player position   ;6,8
+        dw $0028, $0058                 ;starting player position   ;6,8
         dw objlist_room1                ;object list pointer        ;a
         ;dw spritelist_room1            ;unimplemented              ;c
     }
     
     .room2: {
         dw !state_loadgame              ;program mode to use
-        dw $0080, $0080                 ;starting camera position x,y
-        dw $0100, $0100                 ;starting player position x,y
+        dw $0100, $0000                 ;starting camera position x,y
+        dw $01e0, $0080                 ;starting player position x,y
         dw objlist_room2                ;object list pointer
         ;dw spritelist_room1            ;unimplemented
     }

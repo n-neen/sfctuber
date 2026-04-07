@@ -6,9 +6,9 @@ main: {
     ;beq +
     ;asl
     ;tax
-    
+    ;
     ;jsr (main_prestatetable,x)
-    
+    ;
     ;+
     lda w_programstate
     asl
@@ -22,6 +22,7 @@ main: {
     
     .prestatetable: {
         dw pre_none         ;0: none yet
+        dw pre_msg          ;1
     }
     
     .table: {
@@ -31,8 +32,25 @@ main: {
         dw gameplayvector   ;3
         dw loadgame         ;4
     }
-    
 }
+
+
+pre: {
+    ;unimplemented
+    
+    .none: {
+        ;todo
+        
+        rts
+    }
+    
+    .msg: {
+        jsl msg_display
+        
+        rts
+    }
+}
+
 
 scenetransition: {
     ;populate scene area of memory
@@ -75,10 +93,13 @@ scenetransition: {
     
     ;scene dialogue/gameplay properties
     
-    ;probably skip the following if it's not a gameplay room
-    
     lda $0000,x
     sta.l w_scene_mode
+    
+    cmp #!state_loadscene
+    beq .notgameplay
+    
+    .gameplay:                  ;else, gameplay
     
     lda $0002,x
     sta.l w_level_camerastartx
@@ -97,6 +118,18 @@ scenetransition: {
     
     plb
     rts
+    
+    .notgameplay:
+    
+    lda $0002,x
+    sta.l w_scene_strptr       ;eventually, script (list of text pointers)
+    
+    lda $0004,x
+    and #$00ff
+    sta.l w_scene_strline       ;what line to start text on
+    
+    plb
+    rts
 }
 
 
@@ -104,6 +137,8 @@ loadscene: {
     jsr waitfornmi
     jsr screenoff
     jsr disablenmi
+    
+    stz w_scene_timer
     
     jsl load_scene
     
@@ -151,17 +186,6 @@ layer3off: {
 }
 
 
-pre: {
-    ;unimplemented
-    
-    .none: {
-        ;todo
-        
-        rts
-    }
-}
-
-
 setup: {
     ;initial setup for loading graphics, tilemaps
     
@@ -169,6 +193,8 @@ setup: {
     jsr screenoff
     
     ;load graphics, palette, tilemap
+    
+    stz w_prestate
     
     jsl hdma_clearall
     jsl glow_clearall
@@ -225,32 +251,42 @@ gameplayvector: {
 
 
 scenehandler: {
-    ;todo
+    lda w_scene_timer
+    bne +
+    {
+        stz w_bg3yscroll
+        jsr layer3on
+        
+        ldx w_scene_strptr
+        ldy w_scene_strline
+        jsl msg_display
+        
+        lda #$0001
+        sta w_scene_timer
+    }
+    +
     
-    ;jsl hdma_top
-    ;jsl glow_top
     
     lda w_controller
     beq .return
-    
-    ;initiate scene change
-    
-    lda w_testsceneindex
-    inc
-    sta w_testsceneindex
-    
-    lda w_testsceneindex
-    asl
-    tax
-    lda.l scenehandler_testtable,x
-    tax
-    jsr scenetransition
-    
-    lda w_scene_mode
-    sta w_programstate
-    
-    jsr fadeout
-    
+    {
+        lda w_testsceneindex
+        inc
+        sta w_testsceneindex            ;advance scene index
+        
+        lda w_testsceneindex
+        asl
+        tax
+        lda.l scenehandler_testtable,x
+        tax
+        jsr scenetransition             ;initiate scene change
+        
+        lda w_scene_mode
+        sta w_programstate
+        
+        jsr fadeout
+        jsl msg_reset
+    }
     .return:
     rts
     

@@ -12,10 +12,10 @@ player: {
         lda w_level_playerstarty
         sta w_player_y
         
-        lda #$0006
-        sta w_player_xsize          ;radius
+        lda #!player_xsize_default
+        sta w_player_xsize
         
-        lda #$0006
+        lda #!player_ysize_default
         sta w_player_ysize
         
         jsr player_draw             ;test sprite not real
@@ -55,9 +55,40 @@ player: {
     }
     
     
+    .hitboxsize: {
+        lda w_player_direction
+        beq +
+        
+        lda #!player_xsize_default-5        ;if moving
+        sta w_player_xsize
+        
+        lda #!player_ysize_default-5
+        sta w_player_ysize
+        
+        rts
+        
+        +
+        lda #!player_xsize_default          ;if not moving
+        sta w_player_xsize
+        
+        lda #!player_ysize_default
+        sta w_player_ysize
+        
+        rts
+    }
+    
+    
     .main: {
-        jsr player_input
-        jsr player_boundscheck
+        phk
+        plb
+        
+        jsr player_input            ;get input (adds direction bits to w_player_direction)
+        jsr player_hitboxsize       ;make hitbox bigger if moving
+        jsr player_boundscheck      ;hardcoded test harness for level bounds
+        jsr player_collision        ;removes direction bits from w_player_direction
+        
+        lda w_player_direction
+        jsr player_move             ;move in the directions of remaining direction bits
               
         ;locate player on screen
         
@@ -75,44 +106,205 @@ player: {
         
         jsr player_draw
         
-        ;put a state machine here
-        ;or like three or four
-        
         rtl
+    }
+    
+    
+    .move: {
+        ;A = direction bits
+        
+        bit #!controller_up
+        beq +
+        {
+            pha
+            jsr player_move_up
+            pla
+        }
+        +
+        
+        bit #!controller_dn
+        beq +
+        {
+            pha
+            jsr player_move_down
+            pla
+        }
+        +
+        
+        bit #!controller_lf
+        beq +
+        {
+            pha
+            jsr player_move_left
+            pla
+        }
+        +
+        
+        
+        bit #!controller_rt
+        beq +
+        {
+            pha
+            jsr player_move_right
+            pla
+        }
+        +
+        
+        rts
+        
+        ..up: {
+            lda w_player_suby
+            sec
+            sbc #$8000
+            sta w_player_suby
+            
+            lda w_player_y
+            sbc #$0001
+            sta w_player_y 
+            
+            rts
+        }
+        
+        ..down: {
+            lda w_player_suby
+            clc
+            adc #$8000
+            sta w_player_suby
+            
+            lda w_player_y
+            adc #$0001
+            sta w_player_y 
+        
+            rts
+        }
+        
+        ..right: {
+            lda w_player_subx
+            clc
+            adc #$8000
+            sta w_player_subx
+            
+            lda w_player_x
+            adc #$0001
+            sta w_player_x
+            
+            rts
+        }
+        
+        ..left: {
+            lda w_player_subx
+            sec
+            sbc #$8000
+            sta w_player_subx
+            
+            lda w_player_x
+            sbc #$0001
+            sta w_player_x
+            
+            rts
+        }
+    }
+    
+    
+    .collision: {
+        lda w_player_collisiontype
+        asl
+        tax
+        
+        jsr (player_collision_table,x)
+        
+        rts
+        
+        ..table: {
+            dw player_collision_air             ;0
+            dw player_collision_preventup       ;1
+            dw player_collision_preventdown     ;2
+            dw player_collision_preventleft     ;3
+            dw player_collision_preventright    ;4
+            dw player_collision_solid           ;5
+        }
+        
+        ..air: {
+            
+            rts
+        }
+        
+        ..solid: {
+            lda w_player_direction
+            eor #$ffff
+            jsr player_move
+            jsr player_move
+            jsr player_move
+            
+            stz w_player_direction
+
+            rts
+        }
+        
+        ..preventup: {
+            lda w_player_direction
+            and #($ffff^!controller_up)
+            sta w_player_direction
+            
+            rts
+        }
+        
+        ..preventdown: {
+            lda w_player_direction
+            and #($ffff^!controller_dn)
+            sta w_player_direction
+            
+            rts
+        }
+        
+        ..preventleft: {
+            lda w_player_direction
+            and #($ffff^!controller_lf)
+            sta w_player_direction
+            
+            rts
+        }
+        
+        ..preventright: {
+            lda w_player_direction
+            and #($ffff^!controller_rt)
+            sta w_player_direction
+            
+            rts
+        }
     }
     
     
     .boundscheck: {
         ;todo: add level bounds to level metadata
         
-        lda w_player_x
+        lda w_player_x          ;left bound
         cmp #$0004
         bpl +
         lda #$0004
         sta w_player_x
         +
         
-        lda w_player_x
+        lda w_player_x          ;right bound
         cmp #$01f0
         bmi +
         lda #$01f0
         sta w_player_x
         +
         
-        lda w_player_y
+        lda w_player_y          ;top bound
         cmp #$0004
         bpl +
         lda #$0004
         sta w_player_y
         +
         
-        lda w_player_y
+        lda w_player_y          ;bottom bound
         cmp #$01d0
         bmi +
         lda #$01d0
         sta w_player_y
         +
-        
         
         rts
     }
@@ -131,15 +323,6 @@ player: {
             ora #!controller_up
             sta w_player_direction
             
-            lda w_player_suby
-            sec
-            sbc #$8000
-            sta w_player_suby
-            
-            lda w_player_y
-            sbc #$0001
-            sta w_player_y 
-            
             pla
         }
         ..noup:
@@ -153,15 +336,6 @@ player: {
             lda w_player_direction      ;add down to the direction
             ora #!controller_dn
             sta w_player_direction
-            
-            lda w_player_suby
-            clc
-            adc #$8000
-            sta w_player_suby
-            
-            lda w_player_y
-            adc #$0001
-            sta w_player_y 
             
             pla
         }
@@ -177,15 +351,6 @@ player: {
             ora #!controller_lf
             sta w_player_direction
             
-            lda w_player_subx
-            sec
-            sbc #$8000
-            sta w_player_subx
-            
-            lda w_player_x
-            sbc #$0001
-            sta w_player_x 
-            
             pla
         }
         ..nolf:
@@ -199,15 +364,6 @@ player: {
             lda w_player_direction      ;add rt to the direction
             ora #!controller_rt
             sta w_player_direction
-            
-            lda w_player_subx
-            clc
-            adc #$8000
-            sta w_player_subx
-            
-            lda w_player_x
-            adc #$0001
-            sta w_player_x 
             
             pla
         }

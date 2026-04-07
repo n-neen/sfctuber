@@ -1,18 +1,23 @@
 msg: {
-    .writetilemap: {
-        ;eventually, x = message pointer
-                  ;, text strings in some other bank
-                  
-        ;need to specify starting location
-        ;in w_msg_start
-                  
+    .display: {
+        ;x = message pointer
+        ;y = starting line
+        
         stx p_0
-        lda #((msg&$ff0000)>>16)
+        
+        lda #((str&$ff0000)>>16)    ;text string bank
         sta p_2
         
-                          ;eventually we will specify starting destination (in tilemap)
-        ldy #$0000        ;y = starting index in source text
-        ldx #$0000        ;x = starting index in tilemap
+        tya
+        asl
+        asl
+        asl
+        asl
+        asl
+        asl
+        sta w_msg_start
+        tax                     ;x = starting index in tilemap (line * 32)*2 again for tilemap (2 bytes per tile)
+        ldy #$0000              ;y = starting index in source text
         
         -
         lda [p_0],y
@@ -44,6 +49,11 @@ msg: {
             jsl waitfornmi_long
             
             ;jsl gameplay                ;could call gameplay here too
+            ;jsl gameplay_shadow         ;this is a better idea but still not ideal
+            
+            ;maybe gameplay and scene handler both have shadow modes?
+            ;scene handler doesn't need to do anyhting else, so i think gameplay
+            ;is the only one that needs this
             
             plx
             ply
@@ -59,7 +69,7 @@ msg: {
         ..done:
         
         ;stx w_msg_size
-        rts
+        rtl
     }
     
     
@@ -86,6 +96,20 @@ msg: {
         
         +
         rts
+    }
+    
+    
+    .reset: {
+        jsl msg_cleartilemap
+        
+        lda #$0001
+        sta w_msg_uploadflag
+        lda #$0800
+        sta w_msg_size
+        
+        jsl layer3off_long
+        
+        rtl
     }
     
     
@@ -131,37 +155,4 @@ msg: {
         rtl
     }
     
-    
-    .tilemaptest: {
-        jsl layer3on_long
-        stz w_bg3yscroll
-        
-        ldx #msg_testtext
-        jsr msg_writetilemap
-        
-        lda #$0001
-        sta w_msg_uploadflag
-        
-        rtl
-    }
-    
-    
-    .testtext: {
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db !msg_newline
-        db "        an act of love"
-        db !msg_newline
-        db !msg_newline
-        db "         remains at last"
-        db !msg_newline
-        db !msg_newline
-        db "          preserved above"
-        db !msg_newline
-        db !msg_newline
-        db "           from robot past"
-        
-        db !msg_end
-    }
 }

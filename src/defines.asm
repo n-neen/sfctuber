@@ -25,10 +25,13 @@
 
 ;================================ constants ==================================
 
-!fade_bitmask_default       =   $0005
+!fade_bitmask_default       =   $0005       ;used in main.asm
 !fade_timer_default         =   $0010
 
-!scroll_upbound_default     =   $0001
+
+;player and camera constants
+
+!scroll_upbound_default     =   $0001       ;used in scroll.asm
 !scroll_downbound_default   =   $00ff
 !scroll_leftbound_default   =   $0001
 !scroll_rightbound_default  =   $00ff
@@ -36,15 +39,27 @@
 !camera_subspeed_default    =   $8000       ;default speed = speed.subspeed, set in main.asm
 !camera_speed_default       =   $0001
 
-!camera_box_up_bound        =   $0040
+!camera_box_up_bound        =   $0040       ;used in scroll.asm
 !camera_box_dn_bound        =   $0090
 !camera_box_lf_bound        =   $0040
 !camera_box_rt_bound        =   $00b0
 
+!collision_type_air             =   $0000   ;used in player.asm
+!collision_type_preventup       =   $0001
+!collision_type_preventdown     =   $0002
+!collision_type_preventleft     =   $0003
+!collision_type_preventright    =   $0004
+!collision_type_solid           =   $0005
 
-!msg_newline    = $0a
-!msg_end        = $00
 
+!player_xsize_default           =   $0004
+!player_ysize_default           =   $0004
+
+!msg_newline    = $0a                       ;used in messagebox.asm
+!msg_end        = $00                       ;and in strings.asm
+
+
+;object constants
 
 !obj_count      =   $001f
 

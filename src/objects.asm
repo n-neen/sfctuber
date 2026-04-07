@@ -25,7 +25,10 @@ obj: {
         ldx #!obj_count*2
         -
         
-        lda w_obj_id,x
+        lda w_obj_id,x          ;if slot empty, exit
+        beq +
+        
+        lda w_obj_tile,x        ;if null tile, exit (do not draw)
         beq +
         
         jsr obj_draw
@@ -113,7 +116,7 @@ obj: {
         ..write
         tax
         ldy w_obj_index
-        lda w_obj_var1,y        ;tile to draw
+        lda w_obj_tile,y        ;tile to draw
         ;lda #$0234
         sta.l l_level,x
         
@@ -340,6 +343,9 @@ obj: {
         
         lda $0006,y
         sta.l w_obj_touch,x
+        
+        lda $0008,y
+        sta.l w_obj_tile,x
         
         clc
         rts

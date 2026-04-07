@@ -9,14 +9,17 @@ gameplay: {
     ;or deliberately fixing it
     
     
-    stz w_player_direction
+    stz w_player_direction  ;direction bits = 0
     stz w_scroll_direction
+    stz w_player_collisiontype
     
     jsl obj_runmain
-    jsl obj_collision
+    jsl obj_collision       ;removes direction bits
     
-    jsl player_main
+    jsl player_main         ;adds direction bits based on dpad and moves
     jsl scroll_main
+    
+    
     
     ;game goes here
     
@@ -24,17 +27,26 @@ gameplay: {
     bit #!controller_a      ;push A: clear text
     beq +
     
-    {   ;reset dialog prototype
-        jsl msg_cleartilemap
-        
-        lda #$0001
-        sta w_msg_uploadflag
-        lda #$0800
-        sta w_msg_size
-        
+    {
+        jsl msg_reset
         jsl layer3off_long
     }
     +
     
     rtl
+    
+    
+    .shadow: {
+        ;stripped down gameplay to allow player to move during text
+        ;but does not allow for collision
+        
+        
+        stz w_player_direction
+        stz w_scroll_direction
+        
+        jsl player_main
+        jsl scroll_main
+        
+        rtl
+    }
 }
