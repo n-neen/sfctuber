@@ -20,7 +20,9 @@ scenedef: {
     .meetsisters:       %scenedefentry(meetsisters)
     .bloodlotus:        %scenedefentry(bloodlotus)
     
-    .leveltest:         %scenedefentry(leveltest)
+    .flamecircle:       %scenedefentry(flamecircle)
+    
+    .leveltest:         %scenedefentry(leveltest)           ;unused
     
     .room1:             %scenedefentry(room1)
     .room2:             %scenedefentry(room2)
@@ -40,6 +42,10 @@ properties: {
     }
     
     .bloodlotus: {
+        dw !state_loadscene
+    }
+    
+    .flamecircle: {
         dw !state_loadscene
     }
     

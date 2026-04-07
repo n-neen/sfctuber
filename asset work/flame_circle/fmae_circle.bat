@@ -1,0 +1,3 @@
+C:\Users\keenan\Desktop\superfamiconv.exe -i "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\flame_circle\flame_circle.png" -p "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\flame_circle\flame_circle.pal" -t "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\flame_circle\flame_circle.gfx" -m "C:\Users\keenan\Desktop\robot_past\robot_past\asset work\flame_circle\flame_circle.map" --color-zero 380038 --palette-base-offset 1
+
+pause

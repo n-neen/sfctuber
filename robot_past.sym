@@ -108,6 +108,11 @@ C1:A362 bloodlotus_props
 80:83A1 errhandle
 80:834D fadein
 80:832F fadeout
+C5:0000 flamecircle
+C5:0020 flamecircle_gfx
+C5:4BE0 flamecircle_map
+C5:0000 flamecircle_pal
+C5:52E0 flamecircle_props
 80:836E gameplay
 80:8274 gameplayvector
 80:8D8D glow
@@ -248,11 +253,11 @@ C2:2EC2 meetsisters_props
 80:91E9 obj_texttrigger_init
 80:91EA obj_texttrigger_main
 80:91EB obj_texttrigger_touch
-C0:007A objlist
-C0:0084 objlist_definitionend
-C0:007A objlist_definitionstart
-C0:0084 objlist_room1
-C0:0090 objlist_room2
+C0:008B objlist
+C0:0095 objlist_definitionend
+C0:008B objlist_definitionstart
+C0:0095 objlist_room1
+C0:00A1 objlist_room2
 00:0000 p
 00:0000 p_0
 00:0001 p_1
@@ -298,13 +303,14 @@ C3:2020 playersprite_maps
 C3:2000 playersprite_pal
 80:8215 pre
 80:8215 pre_none
-C0:005A properties
-C0:005E properties_bloodlotus
-C0:0060 properties_leveltest
-C0:005A properties_light
-C0:005C properties_meetsisters
-C0:0062 properties_room1
-C0:006E properties_room2
+C0:0069 properties
+C0:006D properties_bloodlotus
+C0:006F properties_flamecircle
+C0:0071 properties_leveltest
+C0:0069 properties_light
+C0:006B properties_meetsisters
+C0:0073 properties_room1
+C0:007F properties_room2
 80:8475 readcontroller
 C3:2020 room1
 C3:2040 room1_gfx
@@ -318,11 +324,12 @@ C4:0000 room2_pal
 C4:9960 room2_props
 C0:0000 scenedef
 C0:001E scenedef_bloodlotus
-C0:002D scenedef_leveltest
+C0:002D scenedef_flamecircle
+C0:003C scenedef_leveltest
 C0:0000 scenedef_light
 C0:000F scenedef_meetsisters
-C0:003C scenedef_room1
-C0:004B scenedef_room2
+C0:004B scenedef_room1
+C0:005A scenedef_room2
 80:8279 scenehandler
 80:829B scenehandler_return
 80:829C scenehandler_testtable
@@ -467,7 +474,7 @@ C0:004B scenedef_room2
 
 [source files]
 0000 7382667c c:/users/keenan/desktop/robot_past/robot_past/src/boot.asm
-0001 3da99729 c:/users/keenan/desktop/robot_past/robot_past/src/main.asm
+0001 b03ee817 c:/users/keenan/desktop/robot_past/robot_past/src/main.asm
 0002 8ffe7d53 c:/users/keenan/desktop/robot_past/robot_past/src/gameplay.asm
 0003 b3ddf2cd c:/users/keenan/desktop/robot_past/robot_past/src/nmi.asm
 0004 1d79ae36 c:/users/keenan/desktop/robot_past/robot_past/src/dma.asm
@@ -480,16 +487,17 @@ C0:004B scenedef_room2
 000b 32d1649e c:/users/keenan/desktop/robot_past/robot_past/src/messagebox.asm
 000c 856863af c:/users/keenan/desktop/robot_past/robot_past/src/objects.asm
 000d ac949e83 ./src/obj_def.asm
-000e d51aeec6 c:/users/keenan/desktop/robot_past/robot_past/data/inc/scenedefs.asm
+000e 7b66ffb0 c:/users/keenan/desktop/robot_past/robot_past/data/inc/scenedefs.asm
 000f d97ed065 c:/users/keenan/desktop/robot_past/robot_past/data/inc/objlists.asm
 0010 509220e6 c:/users/keenan/desktop/robot_past/robot_past/data/inc/c1.asm
 0011 16607059 c:/users/keenan/desktop/robot_past/robot_past/data/inc/c2.asm
 0012 b3b91ac9 c:/users/keenan/desktop/robot_past/robot_past/data/inc/c3.asm
 0013 3da21130 c:/users/keenan/desktop/robot_past/robot_past/data/inc/c4.asm
-0014 1e567add c:/users/keenan/desktop/robot_past/robot_past/robot_past.asm
+0014 3e2aa964 c:/users/keenan/desktop/robot_past/robot_past/data/inc/c5.asm
+0015 979d3d46 c:/users/keenan/desktop/robot_past/robot_past/robot_past.asm
 
 [rom checksum]
-593dffb2
+6081d8de
 
 [addr-to-line mapping]
 80:8000 0000:00000003
@@ -2437,50 +2445,58 @@ c0:0052 000e:00000006
 c0:0054 000e:00000007
 c0:0056 000e:00000008
 c0:0058 000e:00000009
-c0:005a 000e:00000022
-c0:005c 000e:00000027
-c0:005e 000e:0000002b
-c0:0060 000e:0000002f
-c0:0062 000e:00000033
-c0:0064 000e:00000034
-c0:0068 000e:00000035
-c0:006c 000e:00000036
-c0:006e 000e:0000003b
-c0:0070 000e:0000003c
-c0:0074 000e:0000003d
-c0:0078 000e:0000003e
-c0:007a 000f:00000002
-c0:007c 000f:00000003
-c0:007d 000f:00000004
-c0:007e 000f:00000005
-c0:0080 000f:00000006
-c0:0082 000f:00000007
-c0:0084 000f:00000002
-c0:0086 000f:00000003
-c0:0087 000f:00000004
-c0:0088 000f:00000005
-c0:008a 000f:00000006
-c0:008c 000f:00000007
-c0:008e 000f:00000014
-c0:0090 000f:00000002
-c0:0092 000f:00000003
-c0:0093 000f:00000004
-c0:0094 000f:00000005
-c0:0096 000f:00000006
-c0:0098 000f:00000007
-c0:009a 000f:00000002
-c0:009c 000f:00000003
-c0:009d 000f:00000004
-c0:009e 000f:00000005
-c0:00a0 000f:00000006
-c0:00a2 000f:00000007
-c0:00a4 000f:00000002
-c0:00a6 000f:00000003
-c0:00a7 000f:00000004
-c0:00a8 000f:00000005
-c0:00aa 000f:00000006
-c0:00ac 000f:00000007
-c0:00ae 000f:0000001c
+c0:005a 000e:00000003
+c0:005d 000e:00000004
+c0:005f 000e:00000005
+c0:0061 000e:00000006
+c0:0063 000e:00000007
+c0:0065 000e:00000008
+c0:0067 000e:00000009
+c0:0069 000e:00000024
+c0:006b 000e:00000029
+c0:006d 000e:0000002d
+c0:006f 000e:00000031
+c0:0071 000e:00000035
+c0:0073 000e:00000039
+c0:0075 000e:0000003a
+c0:0079 000e:0000003b
+c0:007d 000e:0000003c
+c0:007f 000e:00000041
+c0:0081 000e:00000042
+c0:0085 000e:00000043
+c0:0089 000e:00000044
+c0:008b 000f:00000002
+c0:008d 000f:00000003
+c0:008e 000f:00000004
+c0:008f 000f:00000005
+c0:0091 000f:00000006
+c0:0093 000f:00000007
+c0:0095 000f:00000002
+c0:0097 000f:00000003
+c0:0098 000f:00000004
+c0:0099 000f:00000005
+c0:009b 000f:00000006
+c0:009d 000f:00000007
+c0:009f 000f:00000014
+c0:00a1 000f:00000002
+c0:00a3 000f:00000003
+c0:00a4 000f:00000004
+c0:00a5 000f:00000005
+c0:00a7 000f:00000006
+c0:00a9 000f:00000007
+c0:00ab 000f:00000002
+c0:00ad 000f:00000003
+c0:00ae 000f:00000004
+c0:00af 000f:00000005
+c0:00b1 000f:00000006
+c0:00b3 000f:00000007
+c0:00b5 000f:00000002
+c0:00b7 000f:00000003
+c0:00b8 000f:00000004
+c0:00b9 000f:00000005
+c0:00bb 000f:00000006
+c0:00bd 000f:00000007
+c0:00bf 000f:0000001c
 c1:0000 0010:00000007
 c1:0020 0010:00000008
 c1:6f80 0010:00000009
@@ -2514,15 +2530,19 @@ c4:0000 0013:00000009
 c4:0020 0013:0000000a
 c4:7960 0013:0000000b
 c4:9960 0013:0000000e
-c0:ffc0 0014:00000043
-c0:ffd5 0014:00000044
-c0:ffd6 0014:00000045
-c0:ffd7 0014:00000046
-c0:ffd8 0014:00000047
-c0:ffd9 0014:00000048
-c0:ffda 0014:00000049
-c0:ffdb 0014:0000004a
-c0:ffdc 0014:0000004b
-c0:ffde 0014:0000004c
-c0:ffe0 0014:00000051
-c0:fff0 0014:00000054
+c5:0000 0014:00000009
+c5:0020 0014:0000000a
+c5:4be0 0014:0000000b
+c5:52e0 0014:0000000e
+c0:ffc0 0015:00000043
+c0:ffd5 0015:00000044
+c0:ffd6 0015:00000045
+c0:ffd7 0015:00000046
+c0:ffd8 0015:00000047
+c0:ffd9 0015:00000048
+c0:ffda 0015:00000049
+c0:ffdb 0015:0000004a
+c0:ffdc 0015:0000004b
+c0:ffde 0015:0000004c
+c0:ffe0 0015:00000051
+c0:fff0 0015:00000054
