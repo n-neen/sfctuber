@@ -59,10 +59,10 @@ player: {
         lda w_player_direction
         beq +
         
-        lda #!player_xsize_default-5        ;if moving
+        lda #!player_xsize_default-4        ;if moving... why is subtracting making it bigger?
         sta w_player_xsize
         
-        lda #!player_ysize_default-5
+        lda #!player_ysize_default-4
         sta w_player_ysize
         
         rts
@@ -231,9 +231,7 @@ player: {
         
         ..solid: {
             lda w_player_direction
-            eor #$ffff
-            jsr player_move
-            jsr player_move
+            eor #$0f00
             jsr player_move
             
             stz w_player_direction
@@ -445,12 +443,136 @@ player: {
         ;    y  ^  properties
         ;       tile
         ;
-        ..test: {
+        
+        ;vertical ====================================================================================
+        ..0: {
             ;number of sprites
             db $01
              ;  xx   yy   tt   pp   hh
-            db $80, $80, $c0, $00, $00
+            db $00, $00, $c0, $00, $00
         }
+        
+        ..1: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $c1, $00, $00
+        }
+        
+        ..2: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $c2, $00, $00
+        }
+        
+        ..3: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $c3, $00, $00
+        }
+        
+        ..4: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $c4, $00, $00
+        }
+        
+        ..5: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $c5, $00, $00
+        }
+        
+        ..6: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $c6, $00, $00
+        }
+        
+        ..7: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $c7, $00, $00
+        }
+        
+        ..8: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $c8, $00, $00
+        }
+        
+        ;horizontal ====================================================================================
+        
+        ..9: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d0, $00, $00
+        }
+        
+        ..10: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d1, $00, $00
+        }
+        
+        ..11: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d2, $00, $00
+        }
+        
+        ..12: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d3, $00, $00
+        }
+        
+        ..13: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d4, $00, $00
+        }
+        
+        ..14: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d5, $00, $00
+        }
+        
+        ..15: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d6, $00, $00
+        }
+        
+        ..16: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d7, $00, $00
+        }
+        
+        ..17: {
+            ;number of sprites
+            db $01
+             ;  xx   yy   tt   pp   hh
+            db $00, $00, $d8, $00, $00
+        }
+        
     }
 }
 

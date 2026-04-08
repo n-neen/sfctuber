@@ -117,7 +117,6 @@ obj: {
         tax
         ldy w_obj_index
         lda w_obj_tile,y        ;tile to draw
-        ;lda #$0234
         sta.l l_level,x
         
         ..return:
