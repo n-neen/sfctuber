@@ -182,6 +182,7 @@ w: {
         ..main          :   skip 2*!obj_count+2
         ..touch         :   skip 2*!obj_count+2
         ..tile          :   skip 2*!obj_count+2
+        ..draw          :   skip 2*!obj_count+2
         
         ..x             :   skip 2*!obj_count+2
         ..y             :   skip 2*!obj_count+2

@@ -28,7 +28,7 @@ obj: {
         lda w_obj_id,x          ;if slot empty, exit
         beq +
         
-        lda w_obj_tile,x        ;if null tile, exit (do not draw)
+        lda w_obj_draw,x        ;if null tile, exit (do not draw)
         beq +
         
         jsr obj_draw
@@ -44,8 +44,48 @@ obj: {
     }
     
     
-    
     .draw: {
+        lda w_obj_draw,x
+        
+        tay                 ;y = draw instruction pointer
+        lda $0000,y
+        and #$00ff
+        sta p_6             ;number of tiles to draw
+        
+        iny                 ;y = pointed at first tile
+        
+        -
+        sep #$20
+        lda $0000,y         ;signed byte (x pos) of tile relative to object tile
+        clc
+        adc w_obj_x,x
+        sta p_0             ;x tile to write to
+        
+        lda $0001,y
+        clc
+        adc w_obj_y,x
+        sta p_2             ;y tile to write to
+        
+        rep #$20
+        lda $0002,y
+        sta w_obj_tile,x
+        
+        jsr obj_plot
+        
+        iny
+        iny
+        iny
+        iny
+        
+        dec p_6
+        bne -
+        
+        rts
+    }
+    
+    
+    
+    .plot: {
         ;x = object index
         
         ;single tile test
@@ -62,19 +102,19 @@ obj: {
         stx w_obj_index
         stz w_obj_drawindex
         
-        lda w_obj_x,x       ;x
+        ;lda w_obj_x,x       ;x
         ;lda w_player_x
         ;lsr
         ;lsr
         ;lsr
-        sta p_0
+        ;sta p_0
         
-        lda w_obj_y,x       ;y
+        ;lda w_obj_y,x       ;y
         ;lda w_player_y
         ;lsr
         ;lsr
         ;lsr
-        sta p_2
+        ;sta p_2
         
         lda p_0                 ;if x > $20, we're on right half of screen
         cmp #$0020
@@ -344,7 +384,7 @@ obj: {
         sta.l w_obj_touch,x
         
         lda $0008,y
-        sta.l w_obj_tile,x
+        sta.l w_obj_draw,x
         
         clc
         rts

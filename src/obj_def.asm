@@ -7,7 +7,7 @@
     dw obj_door_init    ;\
     dw obj_door_main    ; routine pointers
     dw obj_door_touch   ;/
-    dw $0234            ;tile
+    dw obj_door_draw    ;draw instruction ptr
     
     ..init: {
         ;runs once when object is spawned
@@ -36,6 +36,15 @@
         plx
         rts
     }
+    
+    ..draw: {
+        db $04                      ;number of tiles to draw
+        db $00, $00 : dw $4234      ;x,y relative to object tile; tile to draw
+        db $ff, $ff : dw $8234      ;x,y relative to object tile; tile to draw
+        db $00, $ff : dw $0234      ;x,y relative to object tile; tile to draw
+        db $ff, $00 : dw $c234      ;x,y relative to object tile; tile to draw
+        
+    }
 }
 
 
@@ -44,7 +53,7 @@
     dw ..init           ;\
     dw ..main           ; routine pointers
     dw ..touch          ;/
-    dw $3022            ;tile
+    dw ..draw           ;draw instruction ptr
     
     ..init: {
         ;
@@ -62,6 +71,11 @@
         
         rts
     }
+    
+    ..draw: {
+        db $01
+        db $00, $00 : dw $0234
+    }
 }
 
 
@@ -70,7 +84,7 @@
     dw ..init           ;\
     dw ..main           ; routine pointers
     dw ..touch          ;/
-    dw $0606            ;tile
+    dw ..draw           ;draw instruction ptr
     
     ;var1   
     ;var2   text starting line
@@ -105,5 +119,10 @@
         
         jsr obj_clear           ;delete
         rts
+    }
+    
+    ..draw: {
+        db $01
+        db $00, $00 : dw $0234
     }
 }
