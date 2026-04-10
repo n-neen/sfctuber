@@ -91,6 +91,12 @@ w: {
         ..y                 : skip 2
         ..suby              : skip 2
         
+        print pc
+        ..xspeed            : skip 2
+        ..yspeed            : skip 2
+        ..xsubspeed         : skip 2
+        ..ysubspeed         : skip 2
+        
         ..x_onscreen        : skip 2
         ..y_onscreen        : skip 2
         
@@ -135,8 +141,11 @@ w: {
         ..upbound       : skip 2
         ..downbound     : skip 2
         
-        ..camerasubspeed: skip 2
-        ..cameraspeed   : skip 2
+        ..cameraspeed    : skip 2
+        ;..camerayspeed   : skip 2
+        
+        ..camerasubspeed : skip 2
+        ;..cameraysubspeed: skip 2
         
         ;todo: put other camera stuff here
     }

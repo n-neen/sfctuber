@@ -55,6 +55,13 @@
 !player_xsize_default           =   $0004
 !player_ysize_default           =   $0004
 
+!player_x_subvelocity           =   $0800
+!player_x_velocity              =   $0000
+
+!player_y_subvelocity           =   $0800
+!player_y_velocity              =   $0000
+
+
 !msg_newline    = $0a                       ;used in messagebox.asm
 !msg_end        = $00                       ;and in strings.asm
 

@@ -220,13 +220,13 @@ load: {
     }
     
     .playerpal: {
-        ;copies a single palette line
-        ;to the last sprite palette in buffer
+        ;copies two sprite lines
+        ;to the last two sprite palettes
         
-        ldx #$0020
+        ldx #$0040
         -
         lda.l playersprite_pal,x
-        sta.l w_cgrambuffer+$01e0,x
+        sta.l w_cgrambuffer+$01c0,x
         dex
         dex
         bpl -

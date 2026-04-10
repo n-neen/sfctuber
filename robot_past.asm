@@ -13,7 +13,7 @@ incsrc "./src/ram_labels.asm"
 ;===========================================================================================
 
 
-org $808000
+org $808000                             ;main system bank
     incsrc "./src/boot.asm"
     incsrc "./src/main.asm"
     incsrc "./src/gameplay.asm"
@@ -30,7 +30,7 @@ org $808000
     
     print "80 end: ", pc
     
-org $c00000
+org $c00000                             ;bank for scenes, dialog and room data
     incsrc "./data/inc/scenedefs.asm"
     incsrc "./data/inc/objlists.asm"
     incsrc "./data/inc/strings.asm"
@@ -56,7 +56,13 @@ org $c50000
     incsrc "./data/inc/c5.asm"
     print "c5 end: ", pc
     
+org $c60000
+    ;incsrc "./data/inc/c5.asm"
+    print "c6 end: ", pc
     
+org $c70000
+    ;incsrc "./data/inc/c5.asm"
+    print "c7 end: ", pc
     
     ;pad the rom
     ;checksum will not calculate correctly if we don't have a whole bank

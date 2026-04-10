@@ -9,7 +9,7 @@ playersprite: {
         incbin "./data/gfx/sprites/player.gfx"
     
     .pal:
-        incbin "./data/pal/sprites/player.pal"
+        incbin "./data/pal/sprites/sprites.pal"
     
     .maps: {
         ;incsrc "./data/spritemap/player.asm"

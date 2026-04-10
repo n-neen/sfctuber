@@ -86,10 +86,12 @@ player: {
         jsr player_hitboxsize       ;make hitbox bigger if moving
         jsr player_boundscheck      ;hardcoded test harness for level bounds
         jsr player_collision        ;removes direction bits from w_player_direction
+        jsr player_applyvelocity
+        jsr player_decelerate
         
         lda w_player_direction
         jsr player_move             ;move in the directions of remaining direction bits
-              
+        
         ;locate player on screen
         
         lda w_player_x
@@ -107,6 +109,63 @@ player: {
         jsr player_draw
         
         rtl
+    }
+    
+    
+    .decelerate: {
+        lda w_player_direction
+        bne ..return
+        
+        lda w_player_xspeed
+        bmi +
+        lda #!controller_lf
+        jsr player_move
+        +
+        
+        lda w_player_xspeed
+        bpl +
+        lda #!controller_rt
+        jsr player_move
+        +
+        
+        lda w_player_yspeed
+        bmi +
+        lda #!controller_up
+        jsr player_move
+        +
+        
+        lda w_player_yspeed
+        bpl +
+        lda #!controller_dn
+        jsr player_move
+        +
+        
+        
+        ..return
+        rts
+    }
+    
+    
+    .applyvelocity: {
+        lda w_player_suby
+        clc
+        adc w_player_ysubspeed
+        sta w_player_suby
+        
+        lda w_player_y
+        adc w_player_yspeed
+        sta w_player_y
+        
+        lda w_player_subx
+        clc
+        adc w_player_xsubspeed
+        sta w_player_subx
+        
+        lda w_player_x
+        adc w_player_xspeed
+        sta w_player_x
+        
+        rts
     }
     
     
@@ -153,53 +212,53 @@ player: {
         rts
         
         ..up: {
-            lda w_player_suby
+            lda w_player_ysubspeed
             sec
-            sbc #$8000
-            sta w_player_suby
+            sbc #!player_y_subvelocity
+            sta w_player_ysubspeed
             
-            lda w_player_y
-            sbc #$0001
-            sta w_player_y 
+            lda w_player_yspeed
+            sbc #!player_y_velocity
+            sta w_player_yspeed 
             
             rts
         }
         
         ..down: {
-            lda w_player_suby
+            lda w_player_ysubspeed
             clc
-            adc #$8000
-            sta w_player_suby
+            adc #!player_y_subvelocity
+            sta w_player_ysubspeed
             
-            lda w_player_y
-            adc #$0001
-            sta w_player_y 
-        
+            lda w_player_yspeed
+            adc #!player_y_velocity
+            sta w_player_yspeed 
+            
             rts
         }
         
         ..right: {
-            lda w_player_subx
+            lda w_player_xsubspeed
             clc
-            adc #$8000
-            sta w_player_subx
+            adc #!player_x_subvelocity
+            sta w_player_xsubspeed
             
-            lda w_player_x
-            adc #$0001
-            sta w_player_x
+            lda w_player_xspeed
+            adc #!player_x_velocity
+            sta w_player_xspeed
             
             rts
         }
         
         ..left: {
-            lda w_player_subx
+            lda w_player_xsubspeed
             sec
-            sbc #$8000
-            sta w_player_subx
+            sbc #!player_x_subvelocity
+            sta w_player_xsubspeed
             
-            lda w_player_x
-            sbc #$0001
-            sta w_player_x
+            lda w_player_xspeed
+            sbc #!player_x_velocity
+            sta w_player_xspeed
             
             rts
         }
@@ -279,29 +338,57 @@ player: {
         lda w_player_x          ;left bound
         cmp #$0004
         bpl +
-        lda #$0004
-        sta w_player_x
+        {
+            lda #$0004
+            sta w_player_x
+            
+            lda w_player_xspeed
+            eor #$ffff
+            inc
+            sta w_player_xspeed
+        }
         +
         
         lda w_player_x          ;right bound
         cmp #$01f0
         bmi +
-        lda #$01f0
-        sta w_player_x
+        {
+            lda #$01f0
+            sta w_player_x
+            
+            lda w_player_xspeed
+            eor #$ffff
+            inc
+            sta w_player_xspeed
+        }
         +
         
         lda w_player_y          ;top bound
         cmp #$0004
         bpl +
-        lda #$0004
-        sta w_player_y
+        {
+            lda #$0004
+            sta w_player_y
+            
+            lda w_player_yspeed
+            eor #$ffff
+            inc
+            sta w_player_yspeed
+        }
         +
         
         lda w_player_y          ;bottom bound
         cmp #$01d0
         bmi +
-        lda #$01d0
-        sta w_player_y
+        {
+            lda #$01d0
+            sta w_player_y
+            
+            lda w_player_yspeed
+            eor #$ffff
+            inc
+            sta w_player_yspeed
+        }
         +
         
         rts
@@ -366,6 +453,28 @@ player: {
             pla
         }
         ..nort:
+        
+        bit #!controller_a
+        beq ..noa
+        {
+            ;if a pressed
+            pha
+            
+            stz w_player_xspeed
+            stz w_player_yspeed
+            
+            stz w_player_ysubspeed
+            stz w_player_ysubspeed
+            
+            stz w_player_suby
+            stz w_player_subx
+            
+            stz w_player_direction
+            
+            pla
+        }
+        ..noa:
+        
         
         rts
     }
