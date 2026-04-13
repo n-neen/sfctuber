@@ -208,13 +208,11 @@ scroll: {
         ;todo
         
         lda w_bg1xscroll
-        clc
-        adc w_player_x
+        lsr
         sta w_bg2xscroll
         
         lda w_bg1yscroll
-        clc
-        adc w_player_y
+        lsr
         sta w_bg2yscroll
         
         rtl

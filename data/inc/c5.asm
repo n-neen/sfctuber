@@ -13,3 +13,16 @@ flamecircle: {
     .props:
         dw $ffff
 }
+
+city: {
+    .pal:   incbin "./data/pal/city3.pal"
+    .gfx:   incbin "./data/gfx/city3.gfx"
+    .map:   incbin "./data/map/city3.map"
+    
+    .props:
+        dw $ffff
+}
+
+bg2test: {
+    .map:   incbin "./data/map/bg2.map"
+}

@@ -289,18 +289,18 @@ player: {
         }
         
         ..solid: {
-            ;stz w_player_xspeed
-            ;stz w_player_yspeed
+            stz w_player_xspeed
+            stz w_player_yspeed
             
-            lda w_player_yspeed
-            eor #$ffff
-            inc
-            sta w_player_yspeed
+            ;lda w_player_yspeed
+            ;eor #$ffff
+            ;inc
+            ;sta w_player_yspeed
             
-            lda w_player_yspeed
-            eor #$ffff
-            inc
-            sta w_player_yspeed
+            ;lda w_player_xspeed
+            ;eor #$ffff
+            ;inc
+            ;sta w_player_xspeed
 
             rts
         }

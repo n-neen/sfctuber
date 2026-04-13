@@ -164,6 +164,7 @@ w: {
         ..strptr        : skip 2
         ..strline       : skip 2
         ..timer         : skip 2
+        ..hdmaobj       : skip 2        ;unused currently
     }
     
     .msg: {

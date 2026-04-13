@@ -61,7 +61,30 @@ str: {
         db !msg_end
     }
 
-
+    .intro4: {
+        db "intro text 4"
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db !msg_newline
+        db "intro text 4.1"
+        db !msg_end
+    }
 
 
 

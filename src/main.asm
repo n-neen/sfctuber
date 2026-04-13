@@ -128,6 +128,9 @@ scenetransition: {
     and #$00ff
     sta.l w_scene_strline       ;what line to start text on
     
+    lda $0005,x
+    sta.l w_scene_hdmaobj
+    
     plb
     rts
 }
@@ -138,6 +141,8 @@ loadscene: {
     jsr screenoff
     jsr disablenmi
     
+    stz w_hdma_enable
+    stz w_glow_enable
     stz w_scene_timer
     
     jsl load_scene
@@ -251,6 +256,15 @@ gameplayvector: {
 
 
 scenehandler: {
+    lda w_scene_hdmaobj
+    beq +
+    lda #$0001
+    sta w_hdma_enable
+    bra ++
+    +
+    stz w_hdma_enable
+    ++
+    
     lda w_scene_timer
     bne +
     {
@@ -295,8 +309,9 @@ scenehandler: {
         dw scenedef_meetsisters,        ;0
            scenedef_bloodlotus,         ;1
            scenedef_flamecircle,        ;2
-           scenedef_room1,              ;3
-           scenedef_room2               ;4
+           scenedef_city,               ;3
+           scenedef_room1,              ;4
+           scenedef_room2               ;5
     }
 }
 
@@ -306,6 +321,8 @@ loadgame: {
     jsr screenoff
     
     jsl load_scene
+    
+    stz w_hdma_enable
     
     jsl obj_clearall
     
@@ -372,7 +389,6 @@ loadgame: {
 
 fadeout: {
     ;screen must be ON when this is called
-    
     jsr enablenmi
     jsr screenon        ;in fact just do this to be sure
     

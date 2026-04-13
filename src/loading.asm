@@ -53,6 +53,15 @@ load: {
         ldx w_scene_palptr
         jsl load_romtocolorbuffer
         
+        ;lda w_scene_hdmaobj
+        ;beq +
+        ;{
+        ;    tay
+        ;    ldx #$0002
+        ;    jsl hdma_spawn
+        ;}
+        ;+
+        
         jsr enablenmi
         jsr waitfornmi
         
@@ -346,6 +355,9 @@ load: {
             ora #%00000010
             sta w_subscreenlayers
             
+            ;lda #%00000000
+            ;sta w_mainscreenlayers
+            
             lda #%10110011
             sta w_colormathlayers
             
@@ -354,9 +366,18 @@ load: {
         }
         rep #$20
         
+        lda #bg2test
+        sta p_0
+        
+        lda #bank(bg2test)
+        sta p_2
+        
+        lda #$0800
+        jsl load_romtobuffer
+        
         lda #$0800                  ;tilemap size
         ldx #!bg2tilemap            ;destination in vram
-        jsl load_levelbuffertovram  ;dma tilemap to vram
+        jsl load_buffertovram       ;dma tilemap to vram
         
         
         

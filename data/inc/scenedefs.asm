@@ -15,14 +15,15 @@ scenedef: {
     ;run superfamiconv to output every scene using at most the bottom 7 palettes
     ;of bg palette area. reserve top 16 colors for bg3!
     ;the routine load_romtocolorbuffer will start at the second palette
+    .leveltest:         %scenedefentry(leveltest)           ;unused
     
-    .light:             %scenedefentry(light)
+    
+    .light:             %scenedefentry(light)               ;unused
     .meetsisters:       %scenedefentry(meetsisters)
     .bloodlotus:        %scenedefentry(bloodlotus)
-    
     .flamecircle:       %scenedefentry(flamecircle)
+    .city:              %scenedefentry(city)
     
-    .leveltest:         %scenedefentry(leveltest)           ;unused
     
     .room1:             %scenedefentry(room1)
     .room2:             %scenedefentry(room2)
@@ -40,23 +41,34 @@ properties: {
         dw !state_loadscene         ;program state to enter
         dw str_intro1               ;text string pointer
         db $08                      ;starting line for text
+        dw hdma_testobject_inidisp  ;hdma object to spawn and run
     }
     
     .bloodlotus: {                  ;intro 2
         dw !state_loadscene
         dw str_intro2
         db $16
+        dw $0000                    ;hdma object to spawn and run
     }
     
     .flamecircle: {                 ;intro 3
         dw !state_loadscene
         dw str_intro3
         db $18
+        dw $0000                    ;hdma object to spawn and run
+    }
+    
+    .city: {
+        dw !state_loadscene
+        dw str_intro4
+        db $04
+        dw $0000                    ;hdma object to spawn and run
     }
     
     .leveltest: {                   ;unused
         dw !state_loadgame
         db $10
+        dw $0000                    ;hdma object to spawn and run
     }
     
     .room1: {                           ;description                ;number of bytes in
