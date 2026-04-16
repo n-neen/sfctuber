@@ -334,6 +334,75 @@ obj: {
         plb
         rtl
     }
+    
+    
+    .dynamicspawn: {
+        ;p_0 = x position
+        ;p_2 = y position
+        ;a = object type
+        phk
+        plb
+        
+        pha
+        
+        ldx #!obj_count*2               ;find empty slot
+        {
+            -
+            lda w_obj_id,x
+            bne +
+            
+            ;slot found
+            bra ..slotfound
+            
+            +
+            dex
+            dex
+            bpl -
+        }
+        
+        ..noslot:                       ;returns x = fffe if no slot
+        pla
+        rtl
+        
+        
+        ..slotfound:
+        pla
+        
+        sta w_obj_id,x
+        
+        tay
+        
+        lda $0000,y
+        and #$00ff
+        sta.l w_obj_xsize,x
+        
+        lda $0001,y
+        and #$00ff
+        sta.l w_obj_ysize,x
+        
+        lda $0002,y
+        sta.l w_obj_init,x
+        
+        lda $0004,y
+        sta.l w_obj_main,x
+        
+        lda $0006,y
+        sta.l w_obj_touch,x
+        
+        lda $0008,y
+        sta.l w_obj_draw,x
+        
+        lda p_0
+        sta.l w_obj_x,x
+        
+        lda p_2
+        sta.l w_obj_y,x
+        
+        jsr obj_draw                    ;draw object
+        jsr (w_obj_init,x)              ;run init routine
+        
+        rtl
+    }
 
     .spawn: {
         ;spawn an object, w_level_objlistindex into the current room's object list

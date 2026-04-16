@@ -17,7 +17,7 @@ org $808000                             ;main system bank
     incsrc "./src/boot.asm"
     incsrc "./src/main.asm"
     incsrc "./src/gameplay.asm"
-    incsrc "./src/nmi.asm"
+    incsrc "./src/interrupts.asm"
     incsrc "./src/dma.asm"
     incsrc "./src/hdma.asm"
     incsrc "./src/scroll.asm"

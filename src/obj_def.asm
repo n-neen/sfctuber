@@ -1,3 +1,38 @@
+.template: {
+    db $02, $02         ;x, y radii
+    dw ..init           ;\
+    dw ..main           ; routine pointers
+    dw ..touch          ;/
+    dw ..draw           ;draw instruction ptr
+    
+    ;var1   
+    ;var2   text starting line
+    ;var3   text string pointer
+    
+    ..init: {
+        ;
+        rts
+    }
+    
+    ..main: {
+        ;
+        rts
+    }
+    
+    ..touch: {
+        ;
+        rts
+    }
+    
+    ..draw: {
+        db $01
+        db $00, $00 : dw $0000
+    }
+}
+
+
+
+
 .door: {
     ;first object written is for initiating room transitions
     ;wrote object system 4.5.26 and this along with it
@@ -66,9 +101,32 @@
     }
     
     ..touch: {
+        phx
+        
         lda #!collision_type_solid
         sta w_player_collisiontype
         
+        {
+            ;test harness for dynamic spawning
+            lda w_obj_x,x       ;x+3,y+3
+            inc
+            inc
+            inc
+            sta p_0
+            
+            lda w_obj_y,x
+            inc
+            inc
+            inc
+            sta p_2
+            
+            lda #obj_solid
+            jsl obj_dynamicspawn
+        }
+        
+        plx
+        
+        jsr obj_clear
         rts
     }
     
@@ -124,5 +182,60 @@
     ..draw: {
         db $01
         db $00, $00 : dw $0234
+    }
+}
+
+
+
+
+
+
+
+.dialogtrigger: {
+    ;unfinished
+    
+    
+    db $02, $02         ;x, y radii
+    dw ..init           ;\
+    dw ..main           ; routine pointers
+    dw ..touch          ;/
+    dw ..draw           ;draw instruction ptr
+    
+    ;var1   
+    ;var2
+    ;var3   scene pointer
+    
+    ..init: {
+        rts
+    }
+    
+    ..main: {
+        rts
+    }
+    
+    ..touch: {
+        ;x = obj index
+        phx
+        
+        lda w_scene_definitionptr
+        sta w_prevscene
+        
+        lda w_obj_var3,x
+        tax
+        jsl scenetransition_long
+        
+        lda w_scene_mode            ;transition to program state
+        sta w_programstate          ;indicated by scene data (either loadscene or loadgame)
+        
+        jsr obj_clear
+        
+        plx
+        rts
+    }
+    
+    ..draw: {
+        db $02
+        db $00, $00 : dw $0000
+        db $01, $01 : dw $0001
     }
 }

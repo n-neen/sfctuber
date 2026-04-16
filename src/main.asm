@@ -122,7 +122,7 @@ scenetransition: {
     .notgameplay:
     
     lda $0002,x
-    sta.l w_scene_strptr       ;eventually, script (list of text pointers)
+    sta.l w_scene_strptr        ;eventually, script (list of text pointers)
     
     lda $0004,x
     and #$00ff
@@ -133,6 +133,11 @@ scenetransition: {
     
     plb
     rts
+    
+    .long: {
+        jsr scenetransition
+        rtl
+    }
 }
 
 
@@ -193,6 +198,8 @@ layer3off: {
 
 setup: {
     ;initial setup for loading graphics, tilemaps
+    
+    sei
     
     jsr waitfornmi
     jsr screenoff
@@ -351,9 +358,17 @@ loadgame: {
     jsl player_init
     
     sep #$20
-    lda w_mainscreenlayers
-    ora #%00010000
-    sta w_mainscreenlayers
+    {
+        lda w_mainscreenlayers
+        ora #%00010000
+        sta w_mainscreenlayers
+        
+        ;lda #%00100001
+        ;sta w_colormathlayers
+        
+        ;lda #%00000010
+        ;sta w_colormathlogic
+    }
     rep #$20
     
     ;jsl load_bg2test

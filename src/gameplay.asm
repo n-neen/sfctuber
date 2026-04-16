@@ -8,10 +8,12 @@ gameplay: {
     ;i can't recall actually understanding how it worked
     ;or deliberately fixing it
     
-    
     stz w_player_direction  ;direction bits = 0
     stz w_scroll_direction
     stz w_player_collisiontype
+    
+    ;jsr irq_playerlinebuildcolorlist
+    jsr irq_setupplayerline
     
     jsl obj_runmain
     jsl obj_collision       ;removes direction bits
@@ -19,7 +21,6 @@ gameplay: {
     jsl player_main         ;adds direction bits based on dpad and moves
     jsl scroll_main
     jsl scroll_bg2
-    
     
     
     ;game goes here

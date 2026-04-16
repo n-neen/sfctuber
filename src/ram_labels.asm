@@ -86,6 +86,14 @@ w: {
     
     .testsceneindex     : skip 2
     
+    .nmitimen           : skip 2
+    
+    .irq: {
+        ..command       : skip 2
+        ..htarget       : skip 2
+        ..vtarget       : skip 2
+    }
+    
     .player: {
         ;print pc
         ..x                 : skip 2
@@ -151,6 +159,8 @@ w: {
         ;todo: put other camera stuff here
     }
     
+    .prevscene          : skip 2        ;scene to return to after dialog
+    
     .scene: {
         ..definitionptr : skip 2
         ..bank          : skip 2
@@ -160,7 +170,7 @@ w: {
         ..gfxsize       : skip 2
         ..tilemapsize   : skip 2
         ..gameprops     : skip 2        ;pointer to rom where the following was gotten
-        ..mode          : skip 2        ;program mode to use for state
+        ..mode          : skip 2        ;program mode to use for scene
         ..strptr        : skip 2
         ..strline       : skip 2
         ..timer         : skip 2
@@ -243,6 +253,9 @@ w: {
     
     org $7ee000
     .msgbuffer      :   skip $800
+    
+    org $7ef000
+    .cgblastbuffer  :   skip $80
 }
 
 org $7f0000

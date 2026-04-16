@@ -12,6 +12,9 @@
 !state_gameplay     =   $0003
 !state_loadgame     =   $0004
 
+!irq_none           =   $0000
+!irq_playerline     =   $0001
+
 
 ;pre-state
 ;currently not used

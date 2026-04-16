@@ -89,11 +89,12 @@ init: {
         sta $2100           ;enable forced blank
         lda #$01
         sta $4200           ;enable joypad autoread
+        sta w_nmitimen      ;buffer
         rep #$30
         
         
         ldx #$000a
--       stz $4200,x         ;clear registers $4200-$420b
+-       stz $4200,x         ;clear registers $4200-$420b... wait, does this ruin the above?
         dex : dex
         bne - 
         
@@ -104,8 +105,9 @@ init: {
         
         sep #$20
         
-        lda #$80            ;enable nmi
+        lda #%10110001      ;enable nmi, irq, and joypad auto-read
         sta $4200
+        sta w_nmitimen
         
         sta $2100           ;enable forced blank
         
